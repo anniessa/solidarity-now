@@ -1,4 +1,4 @@
-function tags(state = [], action) {
+function tagReducer(state = [], action) {
 	switch (action.type) {
 		case "SET_TAG":
 			return action.payload;

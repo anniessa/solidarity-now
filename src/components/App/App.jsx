@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import OffersForm from '../OffersForm/OffersForm';
+import SolidarityWeb from '../SolidarityWeb/SolidarityWeb';
 
 
 import './App.css';
@@ -117,8 +118,15 @@ function App() {
           <ProtectedRoute
           exact
           path='/offersForm'>
-            {/* logged in shows UserPage else shows LoginPage */}
+            {/* logged in shows Offers/Request Form else shows LoginPage */}
             <OffersForm />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact
+          path='/solidarityWeb'>
+            {/* logged in shows Solidarity Web else shows LoginPage */}
+            <SolidarityWeb />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}

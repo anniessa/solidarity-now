@@ -6,3 +6,5 @@ function SolidarityWeb() {
         <h2>Solidarity Web</h2>
     )
 }
+
+export default SolidarityWeb;

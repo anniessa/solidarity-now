@@ -12,7 +12,7 @@ function* getTag() {
 }
 
 function* tagSaga() {
-    yield takeLatest('GET_TAG', getTag);
+    yield takeLatest('GET_BY_TAG', getTag);
 }
 
 export default tagSaga;

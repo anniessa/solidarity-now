@@ -15,8 +15,16 @@ function* addPost(action) {
     try {
         yield axios.post('/api/post', action.payload);
         yield put({type: 'GET_POST'})
+
+        if (action.callback) {
+            action.callback({
+            post_type: '',
+            content: '',
+            additional_resource: '',
+            tag_name: ''})
+        }
     } catch (error) {
-        console.error(error)
+        console.error(`error posting full post`, error)
     }
 }
 

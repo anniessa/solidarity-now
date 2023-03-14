@@ -45,10 +45,14 @@ function Nav() {
               Offers/Requests
             </Link>
 
+            <Link className="navLink" to='/solidarityWeb'>
+              Solidarity Web
+            </Link>
+
             <LogOutButton className="navLink" />
           </>
         )}
-        
+
         <Link className="navLink" to="/about">
           About
         </Link>

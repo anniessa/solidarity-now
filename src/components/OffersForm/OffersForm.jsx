@@ -17,18 +17,25 @@ function OffersForm() {
 
     const user = useSelector(store => store.user);
 
-    const [content, setContent] = useState('');
-    const [resource, setResource] = useState('');
-    const [postType, setPostType] = useState('');
+    // const [content, setContent] = useState('');
+    // const [resource, setResource] = useState('');
+    // const [postType, setPostType] = useState('');
     const [error, setError] = useState(false);
     const [helperText, setHelperText] = useState('');
 
     
     const [checked, setChecked] = useState(new Array(tags.length).fill(false));
 
-    
-    const handleChange = (event) => {
-        setPostType(event.target.value);
+    let [fullPost, setFullPost] = useState({
+        post_type: '',
+        content: '',
+        additional_resource: '',
+        tag_name: '',
+        user_id: user.id,
+        })
+
+    const handleChange = (event, key) => {
+        setFullPost({...fullPost, [key]: event.target.value})
     }
 
     const handleTag = (event) => {
@@ -41,23 +48,16 @@ function OffersForm() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (postType === null) {
+        if (fullPost.post_type === null) {
             setHelperText('Please select whether you are offering or requesting.');
             setError(true);
         } else {
             dispatch({
                 type: 'ADD_POST',
-                payload: {
-                    post_type: postType,
-                    content: content,
-                    additional_resource: resource,
-                    tag_name: checked,
-                    user_id: user.id
-                }
+                payload: fullPost,
+                callback: setFullPost
             })
-            setPostType('');
-            setContent('');
-            setResource('');
+            
         }
     }
 
@@ -72,31 +72,32 @@ function OffersForm() {
                             row
                             aria-labelledby='offer-request-form'
                             name='Offer or Request'
-                            value={postType}
-                            onChange={handleChange}
+                            value={fullPost.post_type}
+                            onChange={e => {handleChange(e, 'post_type')} }
                         >
                             <FormControlLabel value='Request' control={<Radio />} label='Request' />
                             <FormControlLabel value='Offer' control={<Radio />} label='Offer' />
                         </RadioGroup>
                         <FormHelperText>{helperText}</FormHelperText>
                         <TextField label="What are you offering/requesting?"
-                            value={content}
-                            onChange={e => { setContent(e.target.value) }}
+                            value={fullPost.content}
+                            onChange={e => { handleChange(e, 'content') }}
                         />
                         <TextField label="Any resources you want to share??"
-                            value={resource}
-                            onChange={e => { setResource(e.target.value) }}
+                            value={fullPost.resource}
+                            onChange={e => { handleChange(e, 'additional_resource') }}
                         />
                         <ul className='tags'>
                             {tags.map(({ name }, index) => {
                             return (
                             <li key={index}>
                                 <FormControlLabel
-                                    control={<Checkbox
+                                    control={
+                                    <Checkbox
                                         checked={checked[index]}
                                         onChange={() => handleTag(index)}
                                         inputProps={{ 'aria-label': 'controlled' }} />}
-                                    label={name} />
+                                        label={name}/>
                             </li>
                             );
                             
