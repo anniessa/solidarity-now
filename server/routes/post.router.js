@@ -30,6 +30,7 @@ router.get('/:id', (req, res) => {
  GROUP BY "posts".post_type, "posts".content, "posts".additional_resource; 
  `
  pool.query(sqlText, [req.params.id])
+ console.log('tag id from req.params', req.params.id)
  .then(result => {
   res.send(result.rows);
  })
@@ -43,6 +44,7 @@ router.get('/:id', (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
   // POST route code here
   console.log(req.user)
+  console.log('req.body:', req.body)
 
   //RETURNING 'id' will give us back the id of the created post
   const insertPostQuery = `
@@ -59,13 +61,14 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     //this constant makes the tag reference
     const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
-    VALUES ($1, $2);
+    VALUES ($1, ARRAY[$2]);
     `
-    //this query adds the tag to the post
-    pool.query(insertPostTagQuery, [createdPostId, req.body.tags_id])
+    console.log(req.body);
+    pool.query(insertPostTagQuery, [createdPostId, req.body.tag_ids])
+     //this query associates the tag to the post
     .then(result => {
         //now that both are done, send back success
-        console.log(req.body.tags_id)
+        console.log('tags_id:', req.body.tag_ids)
         res.sendStatus(201);
       })
       .catch(err => {

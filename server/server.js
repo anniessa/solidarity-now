@@ -13,7 +13,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const postRouter = require('./routes/post.router');
-const tagRouter = require('./routes/tag.router')
+const tagRouter = require('./routes/tag.router');
 
 // Body parser middleware
 app.use(bodyParser.json());

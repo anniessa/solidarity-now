@@ -10,6 +10,8 @@ function* getPost(){
         console.error('Error getting posts', error);
     }
 }
+
+//helper function to get post
 // adding a new offer/request worker function
 function* addPost(action) {
     try {
@@ -21,7 +23,8 @@ function* addPost(action) {
             post_type: '',
             content: '',
             additional_resource: '',
-            tag_name: ''})
+            tag_ids: []
+        })
         }
     } catch (error) {
         console.error(`error posting full post`, error)
