@@ -21,6 +21,8 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import OffersForm from '../OffersForm/OffersForm';
 import SolidarityWeb from '../SolidarityWeb/SolidarityWeb';
+import BottomNav from '../BottomNav/BottomNav';
+import ResourcesPage from '../ResourcesPage/ResourcesPage';
 
 
 import './App.css';
@@ -40,6 +42,7 @@ function App() {
     <Router>
       <div>
         <Nav />
+        
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -51,6 +54,12 @@ function App() {
             path="/about"
           >
             <AboutPage />
+          </Route>
+
+          <Route
+          exact
+          path="/resources">
+          <ResourcesPage />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
@@ -73,6 +82,20 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute
+          exact
+          path='/offersForm'>
+            {/* logged in shows Offers/Request Form else shows LoginPage */}
+            <OffersForm />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact
+          path='/solidarityWeb'>
+            {/* logged in shows Solidarity Web else shows LoginPage */}
+            <SolidarityWeb />
+          </ProtectedRoute>
+
           <Route
             exact
             path="/login"
@@ -93,7 +116,7 @@ function App() {
           >
             {user.id ?
               // If the user is already logged in, 
-              // redirect them to the /user page
+              // redirect them to the /home page
               <Redirect to="/user" />
               :
               // Otherwise, show the registration page
@@ -115,19 +138,7 @@ function App() {
             }
           </Route>
 
-          <ProtectedRoute
-          exact
-          path='/offersForm'>
-            {/* logged in shows Offers/Request Form else shows LoginPage */}
-            <OffersForm />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-          exact
-          path='/solidarityWeb'>
-            {/* logged in shows Solidarity Web else shows LoginPage */}
-            <SolidarityWeb />
-          </ProtectedRoute>
+          
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
@@ -135,6 +146,7 @@ function App() {
           </Route>
         </Switch>
         <Footer />
+        <BottomNav />
       </div>
     </Router>
   );
