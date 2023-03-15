@@ -7,13 +7,17 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
+  const sqlText = `SELECT * FROM "tags"`;
+  pool.query(sqlText)
+  .then((result) => {
+    res.send(result.rows);
+  })
+  .catch((error) => {
+    console.error(`Error on query ${error}`)
+    res.sendStatus(500);
+  })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-  // POST route code here
-});
+
 
 module.exports = router;

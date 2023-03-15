@@ -19,6 +19,9 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import OffersForm from '../OffersForm/OffersForm';
+import SolidarityWeb from '../SolidarityWeb/SolidarityWeb';
+
 
 import './App.css';
 
@@ -26,6 +29,8 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
+
+
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -109,6 +114,20 @@ function App() {
               <LandingPage />
             }
           </Route>
+
+          <ProtectedRoute
+          exact
+          path='/offersForm'>
+            {/* logged in shows Offers/Request Form else shows LoginPage */}
+            <OffersForm />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+          exact
+          path='/solidarityWeb'>
+            {/* logged in shows Solidarity Web else shows LoginPage */}
+            <SolidarityWeb />
+          </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
