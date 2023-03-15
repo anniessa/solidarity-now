@@ -7,7 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
-  const sqlText = `SELECT * FROM "tags" ORDER BY "tag_name" ASC`;
+  const sqlText = `SELECT * FROM "tags"`;
   pool.query(sqlText)
   .then((result) => {
     res.send(result.rows);

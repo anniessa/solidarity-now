@@ -6,6 +6,7 @@ function* getTag() {
     try {
         let response = yield axios.get('/api/tag');
         yield put ({type: 'SET_TAG', payload: response.data})
+        console.log('these are the tags:', response.data)
     } catch (error) {
         console.error(`Error getting tag`, error);
     }
