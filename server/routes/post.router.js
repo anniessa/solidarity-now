@@ -61,9 +61,11 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     //this constant makes the tag reference
     const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
-    VALUES ($1, ARRAY[$2]);
+    VALUES ($1, $2);
     `
     console.log(req.body);
+    //need to loop over the array of tag_ids and send tag_ids[n] as the req.body
+    
     pool.query(insertPostTagQuery, [createdPostId, req.body.tag_ids])
      //this query associates the tag to the post
     .then(result => {
