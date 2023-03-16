@@ -4,7 +4,6 @@ import SolidarityWebItem from '../SolidarityWebItem/SolidarityWebItem';
 import {
     Card,
     CardContent,
-    CardMedia,
     Grid
 } from "@mui/material";
 import Web from '../graphics/spider_web.png';
@@ -36,7 +35,7 @@ function SolidarityWeb() {
                                 direction="column"
                                 alignItems="center"
                                 justify="center"
-                                style={{ minHeight: '100vh' }}
+                                style={{ maxHeight: 500 }}
                             >
 
                                 <Card sx={{ maxWidth: 500 }}>

@@ -12,6 +12,16 @@ function* getPost(){
     }
 }
 
+// return a specific item by id
+function* getPostById(action) {
+    try{
+        const response = yield axios.get(`api/post/${action.payload}`)
+        yield put({type: 'SET_POST', payload: response.data})
+    } catch(error) {
+        console.error('Error getting posts by specific user', error)
+    }
+}
+
 //helper function to get post
 // adding a new offer/request worker function
 function* addPost(action) {
@@ -35,6 +45,7 @@ function* addPost(action) {
 function* postSaga() {
     yield takeLatest('ADD_POST', addPost);
     yield takeLatest('GET_POST', getPost);
+    yield takeLatest('GET_POST_BY_ID', getPostById);
 }
 
 export default postSaga;
