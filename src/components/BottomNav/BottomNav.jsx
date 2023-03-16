@@ -11,28 +11,32 @@ import { useSelector } from 'react-redux';
 function BottomNav() {
     const user = useSelector((store) => store.user);
 
-    const [value, setValue] = useState('');
+
+    const styles = {
+      stickToBottom: {
+        width: '100%',
+        position: 'fixed',
+        bottom: 0,
+      },
+    };
 
     return (
         <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);}}
+        sx={{ position: 'fixed', bottom: 0, width: 1.0 }}
+        showLabels={true}
           >
       
-
     {user.id && (
       <>
-      <BottomNavigationAction label='Offers/Requests' value='/offersForm' icon={<NoteAddIcon />} component={Link} to='/offersForm'/>
-      <BottomNavigationAction label='Solidarity Web' value='/solidarityWeb' icon={<LanguageIcon />} component={Link} to='/solidarityWeb'/>
-      <BottomNavigationAction label='User Account' value='/user' icon={<PersonOutlineIcon />} component={Link} to='/user'/>
-
+      <BottomNavigationAction label="Offers/Requests" icon={<NoteAddIcon />} component={Link} to='/offersForm'/>
+      <BottomNavigationAction label="Solidarity Web" icon={<LanguageIcon />} component={Link} to='/solidarityWeb'/>
+      <BottomNavigationAction label="Account"  icon={<PersonOutlineIcon />} component={Link} to='/user'/>
+      
       <LogOutButton className="navLink" />
       </>
       )}
-
-      </BottomNavigation>
+  
+      </BottomNavigation> 
     )
 }
 

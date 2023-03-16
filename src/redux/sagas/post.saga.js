@@ -5,6 +5,7 @@ import axios from 'axios';
 function* getPost(){
     try {
         const response = yield axios.get('/api/post');
+        console.log('response:', response)
         yield put({type: 'SET_POST', payload: response.data})
     } catch (error) {
         console.error('Error getting posts', error);

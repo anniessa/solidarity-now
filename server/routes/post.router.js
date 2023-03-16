@@ -8,7 +8,12 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
  */
 router.get('/', (req, res) => {
   // GET route code here
-  const sqlText = `SELECT * from "posts"`
+  const sqlText =  `
+  SELECT "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+  RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
+  RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
+  GROUP BY "posts".id;
+`
   pool.query(sqlText)
     .then(result => {
       res.send(result.rows);
@@ -19,19 +24,21 @@ router.get('/', (req, res) => {
     })
 });
 
-// getting all the tags for each post - used string_agg to combine all the tags
+// getting all the tags for each post - used array_agg to combine all the tags
 router.get('/:id', (req, res) => {
   const sqlText =
     `
- SELECT "posts".post_type, "posts".content, "posts".additional_resource, string_agg("tags".tag_name, ', ') AS "tags_column" FROM "tags"
- JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
- JOIN "posts" ON "posts".id = "tags_posts".posts_id
- WHERE "posts".id = 8
- GROUP BY "posts".post_type, "posts".content, "posts".additional_resource; 
+    SELECT "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+    RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
+    RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
+    WHERE "posts".id = $1
+    GROUP BY "posts".id;
+   
  `
   pool.query(sqlText, [req.params.id])
   console.log('tag id from req.params', req.params.id)
     .then(result => {
+      console.log(result)
       res.send(result.rows);
     })
     .catch(err => {
