@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import HandHeart from '../graphics/hand_heart.png'
+import Logo from '../graphics/logo.png'
 
 import './Nav.css';
 
@@ -34,7 +34,7 @@ function Nav() {
 
     <div className="nav">
 
-      <img src={HandHeart} alt="Two hands holding making a heart" width="100" height="100"/>
+      <img src={Logo} alt="Solidarity Now!" width="100" height="69"/>
 
       <Link className="navLink" to="/about">
           About

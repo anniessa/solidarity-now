@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SolidarityWebItem from '../SolidarityWebItem/SolidarityWebItem';
+import {
+    Card,
+    CardContent,
+    CardMedia,
+    Grid
+} from "@mui/material";
+import Web from '../graphics/spider_web.png';
+import './SolidarityWeb.css'
 
 function SolidarityWeb() {
     const dispatch = useDispatch();
@@ -15,18 +23,35 @@ function SolidarityWeb() {
     return (
         <div>
             <section className='post-section'>
+                <div className="center">
                 <h2>Solidarity Web</h2>
+                <img src={Web} />
+                </div>
                 {allPosts.map((post, i) => {
                     return (
                         <div className='container' key={i}>
-                        <p>{post.post_type}</p>
-                        <p>{post.content}</p>
-                        <p>{post.additional_resource}</p>
+                            <Grid
+                                container
+                                spacing={0}
+                                direction="column"
+                                alignItems="center"
+                                justify="center"
+                                style={{ minHeight: '100vh' }}
+                            >
 
-                        <ul><SolidarityWebItem post={post} /></ul>
+                                <Card sx={{ maxWidth: 500 }}>
+                                    <CardContent>
+                                        <p>{post.post_type}</p>
+                                        <p>{post.content}</p>
+                                        <p>{post.additional_resource}</p>
+                                    </CardContent>
+
+                                    <ul><SolidarityWebItem post={post} /></ul>
+                                </Card>
+                            </Grid>
                         </div>
                     )
-                    
+
 
                 })}
             </section>

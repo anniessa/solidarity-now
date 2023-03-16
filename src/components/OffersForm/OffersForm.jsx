@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     Checkbox,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
     Radio,
     RadioGroup,
     FormHelperText,
@@ -10,12 +14,14 @@ import {
     Button,
     TextField
 } from "@mui/material";
+import HandHeart from '../graphics/hand_heart.png'
+import './OffersForm.css';
 
 function OffersForm() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch({type: 'GET_BY_TAG'});
+        dispatch({ type: 'GET_BY_TAG' });
     }, []);
 
     const user = useSelector(store => store.user);
@@ -30,23 +36,23 @@ function OffersForm() {
         additional_resource: '',
         tag_ids: [],
         user_id: user.id,
-        })
+    })
 
     const handleChange = (event, key) => {
-        setFullPost({...fullPost, [key]: event.target.value})
+        setFullPost({ ...fullPost, [key]: event.target.value })
     };
 
     const handleTag = (event) => {
         // first worry about adding an id to the array.
-        const newCopy = {...fullPost} 
+        const newCopy = { ...fullPost }
         // console.log(newCopy)
         const tagId = Number(event.target.value);
         // console.log(tagId, newCopy.tag_ids);
         // console.log(newCopy.tag_ids.includes(tagId))
-        if(newCopy.tag_ids.includes(tagId)) {
+        if (newCopy.tag_ids.includes(tagId)) {
             newCopy.tag_ids = newCopy.tag_ids.filter((id) => id !== tagId)
         } else {
-        newCopy.tag_ids.push(tagId);
+            newCopy.tag_ids.push(tagId);
         }
         setFullPost(newCopy);
     }
@@ -63,7 +69,7 @@ function OffersForm() {
                 payload: fullPost,
                 callback: setFullPost
             })
-            
+
         }
     }
 
@@ -71,55 +77,89 @@ function OffersForm() {
     return (
         <>
             <form className='container' onSubmit={handleSubmit}>
-                <h2>Offers/Requests</h2>
-                <FormControl error={error}>
-                    <div className='radio-group'>
-                        <RadioGroup
-                            row
-                            aria-labelledby='offer-request-form'
-                            name='Offer or Request'
-                            value={fullPost.post_type}
-                            onChange={(e) => {handleChange(e, 'post_type')} }
-                        >
-                            <FormControlLabel value='Request' control={<Radio />} label='Request' />
-                            <FormControlLabel value='Offer' control={<Radio />} label='Offer' />
-                        </RadioGroup>
-                        <FormHelperText>{helperText}</FormHelperText>
-                        <TextField label="What are you offering/requesting?"
-                            value={fullPost.content}
-                            onChange={(e) => { handleChange(e, 'content') }}
-                        />
-                        <TextField label="Any resources you want to share??"
-                            value={fullPost.additional_resource}
-                            onChange={(e) => { handleChange(e, 'additional_resource') }}
-                        />
-                        <ul className='tags'>
-                            {tags.map(tag => {
-                                // console.log(fullPost)
-                            return (
-                            <li key={tag.id}>
-                                <FormControlLabel
-                                    control={
-                                    <Checkbox
-                                        checked={fullPost.tag_ids.includes(tag.id)}
-                                        onChange={handleTag}
-                                        inputProps={{ 'aria-label': 'controlled' }} />}
-                                        value={tag.id}
-                                        label={tag.tag_name}/>
-                            </li>
-                            );
+            <h2 className="title">Offers/Requests</h2>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: '100vh' }}
+                >
+                    <Grid item xs={3}>
+                <Card sx={{ maxWidth: 300 }}>
+                    <CardMedia
+                        sx={{ height: 270 }}
+                        image={HandHeart}
+                        title='Solidarity Now!'
+                    />
+                    <CardContent>
+
+
+                        <FormControl error={error}>
+                            <div className='form'>
+                            <div className='radio-group'>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby='offer-request-form'
+                                    name='Offer or Request'
+                                    value={fullPost.post_type}
+                                    onChange={(e) => { handleChange(e, 'post_type') }}
+                                >
+                                    <FormControlLabel value='Request' control={<Radio />} label='Request' />
+                                    <FormControlLabel value='Offer' control={<Radio />} label='Offer' />
+                                </RadioGroup>
+                                </div>
+                                <FormHelperText>{helperText}</FormHelperText>
+                                <TextField 
+                                    className="text-field"
+                                    fullWidth
+                                    label="What are you offering/requesting?"
+                                    value={fullPost.content}
+                                    onChange={(e) => { handleChange(e, 'content') }}
+                                />
+                                <TextField 
+                                    className="text-field"
+                                    fullWidth
+                                    label="Any resources you want to share?"
+                                    value={fullPost.additional_resource}
+                                    onChange={(e) => { handleChange(e, 'additional_resource') }}
+                                />
+                                <ul className='tags'>
+                                    <p>Tags</p>
+                                    {tags.map(tag => {
+                                        
+                                        return (
+                                            <li key={tag.id}>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={fullPost.tag_ids.includes(tag.id)}
+                                                            onChange={handleTag}
+                                                            inputProps={{ 'aria-label': 'controlled' }} />}
+                                                    value={tag.id}
+                                                    label={tag.tag_name} />
+                                            </li>
+                                        );
+
+                                    })}
+                                </ul>
+
+                                
+                                <Button
+                                    type='submit'
+                                    value='Submit'>
+                                    Submit
+                                </Button>
+                            </div>
                             
-                            })}
-                        </ul>
 
-                        <Button
-                            type='submit'
-                            value='Submit'>
-                            Submit
-                        </Button>
-                    </div>
+                        </FormControl>
+                    </CardContent>
 
-                </FormControl>
+                </Card>
+                </Grid>
+                </Grid>
             </form>
         </>
     )

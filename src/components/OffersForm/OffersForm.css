@@ -1,5 +1,16 @@
-.container {
-    display: flex;
-    align-items:flex-start;
+.title {
+    margin: 10px;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+   }
+
+.text-field {
+    margin: 10px;
+}
+
+.radio-group {
     justify-content: center;
 }
