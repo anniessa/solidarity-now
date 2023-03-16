@@ -45,8 +45,6 @@ function BottomNav() {
             label="Account"
             icon={<PersonOutlineIcon />}
             component={Link} to='/user' />
-
-          <LogOutButton className="navLink" />
         </>
       )}
 
