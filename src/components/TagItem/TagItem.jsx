@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function SolidarityWebItem({post}){
+function TagItem({post}){
     // console.log('prop post', post)
     return (
         <div className="post-item">
@@ -21,4 +21,4 @@ function SolidarityWebItem({post}){
     )
 }
 
-export default SolidarityWebItem;
+export default TagItem;

@@ -24,21 +24,21 @@ router.get('/', (req, res) => {
     })
 });
 
-// getting all the tags for each post - used array_agg to combine all the tags
+// returning a specific item by id
 router.get('/:id', (req, res) => {
   const sqlText =
     `
     SELECT "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
     RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
     RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
-    WHERE "posts".id = $1
-    GROUP BY "posts".id;
-   
+    WHERE user_id = $1
+    GROUP BY "posts".post_type,  "posts".content, "posts".additional_resource;  
  `
-  pool.query(sqlText, [req.params.id])
-  console.log('tag id from req.params', req.params.id)
+//  console.log(req.user.id)
+//  console.log('hello world')
+  pool.query(sqlText, [req.user.id])
     .then(result => {
-      console.log(result)
+      // console.log(result.rows)
       res.send(result.rows);
     })
     .catch(err => {
@@ -51,7 +51,7 @@ router.get('/:id', (req, res) => {
 router.post('/', rejectUnauthenticated, async (req, res) => {
   // POST route code here
   console.log(req.user)
-  console.log('req.body:', req.body)
+  // console.log('req.body:', req.body)
   let tag_ids = req.body.tag_ids
 
   try {

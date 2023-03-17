@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import SolidarityWebItem from '../SolidarityWebItem/SolidarityWebItem';
+import TagItem from "../TagItem/TagItem";
 import {
     Card,
     CardContent,
-    CardMedia,
     Grid
 } from "@mui/material";
 import Web from '../graphics/spider_web.png';
@@ -24,8 +23,8 @@ function SolidarityWeb() {
         <div>
             <section className='post-section'>
                 <div className="center">
-                <h2>Solidarity Web</h2>
-                <img src={Web} />
+                    <h2>Solidarity Web</h2>
+                    <img src={Web} />
                 </div>
                 {allPosts.map((post, i) => {
                     return (
@@ -36,8 +35,9 @@ function SolidarityWeb() {
                                 direction="column"
                                 alignItems="center"
                                 justify="center"
-                                style={{ minHeight: '100vh' }}
+                                style={{ maxHeight: 500 }}
                             >
+                                
 
                                 <Card sx={{ maxWidth: 500 }}>
                                     <CardContent>
@@ -46,18 +46,19 @@ function SolidarityWeb() {
                                         <p>{post.additional_resource}</p>
                                     </CardContent>
 
-                                    <ul><SolidarityWebItem post={post} /></ul>
+                                    <ul><TagItem post={post} /></ul>
                                 </Card>
                             </Grid>
+
                         </div>
                     )
-
-
-                })}
+                }
+                )}
             </section>
-
         </div>
     )
 }
+
+
 
 export default SolidarityWeb;
