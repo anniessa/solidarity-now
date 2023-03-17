@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LogOutButton from '../LogOutButton/LogOutButton';
 import Logo from '../graphics/logo.png'
 
 import './Nav.css';
@@ -55,6 +56,7 @@ function Nav() {
           <option value="ar">عربي</option>
           <option value="es">Español</option>
         </select>
+        <LogOutButton />
         </div>
         )
         };

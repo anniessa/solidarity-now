@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TagItem from "../TagItem/TagItem";
+
 import {
     Card,
     CardContent,
@@ -50,11 +51,14 @@ function SolidarityWeb() {
                                 </Card>
                             </Grid>
 
+                            
+
                         </div>
                     )
                 }
                 )}
             </section>
+            
         </div>
     )
 }

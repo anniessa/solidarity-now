@@ -80,4 +80,41 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
   }
     });
 
+// Edit request by id -- update a post if authorized logged in user edits
+router.put('/:id', rejectUnauthenticated, async (req, res) => {
+  console.log(req.body);
+  let tag_ids = req.body.tag_ids
+
+  try {
+  const sqlText = `
+  UPDATE post
+  SET "post_type",  "content", "additional_resource")
+  WHERE id = $1 and user_id = $2;
+  `
+  result = await pool.query(sqlText, [
+    req.params.id,
+    req.user.id,
+    req.body.post_type,
+    req.body.content,
+    req.body.additional_resource
+  ])
+
+  const updatedTags = tag_ids.map(tagId => {
+    const insertPostTagQuery = `
+    UPDATE "tags_posts" 
+    SET "tags_id"
+    WHERE post_id = $1;
+    `
+    pool.query(insertPostTagQuery, [tagId])
+    })
+    // returning an empty object, until the map is completed and once its completed, it sends status
+    Promise.all(updatedTags)
+    res.sendStatus(200)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+
+  
+})
+
 module.exports = router;

@@ -67,16 +67,23 @@ function PostItem({post}) {
         <div className='container'>
             <Grid
               container
-              spacing={0}
+              display="flex"
               direction="column"
-              alignItems="center"
-              justify="center"
-              style={{ maxHeight: 500 }}
+              alignItems="stretch"
+              justify="space-evenly"
+              spacing={2}
+            //   style={{ maxHeight: 500 }}
             >
               {isEditing ? (
                 <>
                   <form onSubmit={handleEditSubmit}>
-                    <Card sx={{ maxWidth: 800 }} key={post.id}>
+                    <Grid 
+                    item 
+                    display="flex"
+                    direction="column"
+                    >
+                    <Card 
+                    sx={{ maxWidth: 400, height: 650 }} key={post.id}>
                       <CardContent>
                         <RadioGroup
                           row
@@ -124,10 +131,12 @@ function PostItem({post}) {
                         <Button type="submit" value="Save"> Save </Button>
                       </CardContent>
                     </Card>
+                    </Grid>
                   </form>
                 </>
               ) : (
                 <>
+                <Grid item>
                 <Card>
                   <CardContent>
                     <p>{post.post_type}</p>
@@ -141,6 +150,7 @@ function PostItem({post}) {
                     >Edit</Button>
                   </CardContent>
                   </Card>
+                  </Grid>
                 </>
 
               )
