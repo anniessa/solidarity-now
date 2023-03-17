@@ -18,19 +18,22 @@ function PostItem({post}) {
 
     const tags = useSelector((store) => store.tag);
     const user = useSelector((store) => store.user);
+    const tagsPosts = useSelector((store) =>  store.tagsPosts);
 
+    console.log(tagsPosts)
   useEffect(() => {
-    dispatch({type: 'GET_POST_BY_ID', payload: user.id})
+    dispatch({type: 'GET_POST_BY_ID', payload: user.id}),
+    dispatch({type: 'GET_TAG_RELATIONS'})
   }, []);
  
-
     const [isEditing, setEditing] = useState(false);
-  
+
     let [fullPost, setFullPost] = useState({
+      postId: post.id,
       post_type: post.post_type,
       content: post.content,
       additional_resource: post.additional_resource,
-      tag_ids: [tags.id],
+      tag_ids: []
     })
 
     const handleEdit = () => {
@@ -55,7 +58,7 @@ function PostItem({post}) {
   }
   
     const handleEditSubmit = (event) => {
-      event.preventDefault;
+      event.preventDefault();
       dispatch({
         type: 'EDIT_POST',
         payload: fullPost
@@ -80,7 +83,6 @@ function PostItem({post}) {
                     <Grid 
                     item 
                     display="flex"
-                    direction="column"
                     >
                     <Card 
                     sx={{ maxWidth: 400, height: 650 }} key={post.id}>
@@ -124,11 +126,15 @@ function PostItem({post}) {
                                   value={tag.id}
                                   label={tag.tag_name} />
                               </li>
-                            );
+                             );
                           })}
                         </ul>
-                        <Button onClick={handleEdit}> Cancel </Button>
-                        <Button type="submit" value="Save"> Save </Button>
+                        <Button type="button" onClick={handleEdit}> 
+                        Cancel 
+                        </Button>
+                        <Button type="submit" value="save" 
+                        > Save 
+                        </Button>
                       </CardContent>
                     </Card>
                     </Grid>

@@ -23,6 +23,18 @@ function* getPostById(action) {
     }
 }
 
+// editing post
+function* editPost(action) {
+    try {
+        console.log('action.payload for edit post', action.payload)
+        yield axios.put(`/api/post/${action.payload.postId}`, action.payload)
+        yield put({type: 'SET_POST'});
+    } catch (error) {
+        console.error(`Error with editing post`, error)
+    }
+
+}
+
 //helper function to get post
 // adding a new offer/request worker function
 function* addPost(action) {
@@ -47,6 +59,7 @@ function* postSaga() {
     yield takeLatest('ADD_POST', addPost);
     yield takeLatest('GET_POST', getPost);
     yield takeLatest('GET_POST_BY_ID', getPostById);
+    yield takeLatest('EDIT_POST', editPost);
 }
 
 export default postSaga;
