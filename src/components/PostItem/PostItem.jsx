@@ -1,25 +1,38 @@
 import TagItem from "../TagItem/TagItem";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+    Grid,
+    Card,
+    CardContent,
+    Button,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    TextField,
+    Checkbox
+} from "@mui/material"
 
 function PostItem({post}) {
     const dispatch = useDispatch();
 
-    const posts = useSelector((store) => store.post);
     const tags = useSelector((store) => store.tag);
+    const user = useSelector((store) => store.user);
+
+  useEffect(() => {
+    dispatch({type: 'GET_POST_BY_ID', payload: user.id})
+  }, []);
+ 
 
     const [isEditing, setEditing] = useState(false);
   
     let [fullPost, setFullPost] = useState({
-      post_type: posts.post_type,
-      content: posts.content,
-      additional_resource: posts.additional_resource,
+      post_type: post.post_type,
+      content: post.content,
+      additional_resource: post.additional_resource,
       tag_ids: [tags.id],
     })
-  
-    useEffect(() => {
-      dispatch({ type: "GET_POST_BY_ID" })
-    }, []);
-  
+
     const handleEdit = () => {
       setEditing(!isEditing);
     }
@@ -51,7 +64,7 @@ function PostItem({post}) {
     }
 
     return (
-        <div className='container' key={i}>
+        <div className='container'>
             <Grid
               container
               spacing={0}
@@ -63,7 +76,7 @@ function PostItem({post}) {
               {isEditing ? (
                 <>
                   <form onSubmit={handleEditSubmit}>
-                    <Card sx={{ maxWidth: 500 }} key={posts.id}>
+                    <Card sx={{ maxWidth: 800 }} key={post.id}>
                       <CardContent>
                         <RadioGroup
                           row
@@ -115,17 +128,19 @@ function PostItem({post}) {
                 </>
               ) : (
                 <>
+                <Card>
                   <CardContent>
                     <p>{post.post_type}</p>
                     <p>{post.content}</p>
                     <p>{post.additional_resource}</p>
-
                     <TagItem post={post} />
+
                     <Button>Delete</Button>
                     <Button
                       onClick={handleEdit}
                     >Edit</Button>
                   </CardContent>
+                  </Card>
                 </>
 
               )

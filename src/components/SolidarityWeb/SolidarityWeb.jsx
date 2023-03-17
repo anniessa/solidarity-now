@@ -37,6 +37,7 @@ function SolidarityWeb() {
                                 justify="center"
                                 style={{ maxHeight: 500 }}
                             >
+                                
 
                                 <Card sx={{ maxWidth: 500 }}>
                                     <CardContent>

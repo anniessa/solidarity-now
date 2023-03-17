@@ -12,10 +12,13 @@ function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   const posts = useSelector((store) => store.post);
-  const tags = useSelector((store) => store.tag);
+  
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch({type: 'GET_POST_BY_ID', payload: user.id})
+  }, []);
  
-
   return (
     <div className="container">
       <h2 className="title">Welcome, {user.username}!</h2>
@@ -23,11 +26,11 @@ function UserPage() {
 
       <h3>You can edit your posts and resubmit, or delete them if they have been fulfilled!</h3>
 
-      <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-            {posts.map((post) => {
-                <PostItem key={post.id} post={post} />
+      <Box sx={{display: 'flex', flexDirection: 'row', flexWrap:'wrap'}}>
+        {posts.map((post, i) => {
+                return <PostItem key={i} post={post}/>
             })}
-        </Box>
+      </Box>
 
       <LogOutButton className="navLink" />
     </div>

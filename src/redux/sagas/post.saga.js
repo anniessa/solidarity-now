@@ -15,7 +15,8 @@ function* getPost(){
 // return a specific item by id
 function* getPostById(action) {
     try{
-        const response = yield axios.get(`api/post/${action.payload}`)
+        const response = yield axios.get(`/api/post/${action.payload}`)
+        // console.log(action.payload)
         yield put({type: 'SET_POST', payload: response.data})
     } catch(error) {
         console.error('Error getting posts by specific user', error)

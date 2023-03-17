@@ -34,9 +34,11 @@ router.get('/:id', (req, res) => {
     WHERE user_id = $1
     GROUP BY "posts".post_type,  "posts".content, "posts".additional_resource;  
  `
+//  console.log(req.user.id)
+//  console.log('hello world')
   pool.query(sqlText, [req.user.id])
     .then(result => {
-      // console.log(result)
+      // console.log(result.rows)
       res.send(result.rows);
     })
     .catch(err => {
