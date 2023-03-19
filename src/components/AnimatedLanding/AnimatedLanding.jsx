@@ -7,16 +7,34 @@ function AnimatedLanding() {
 
 
     return (
-        <div className='container'>
-        <div className='web'>
-            <div className="web-img">
-                
-            </div>
-            <div className='circle'>
-                <div className='icon'><img src={Logo} /></div>
-            </div>
+        <div className="scene">
+        <div className="banner">
+         <div className="panel"></div>
+         <div className="panel"></div>
+         <div className="panel"></div>
+         <div className="panel"></div>
+         <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
+          <div className="panel"></div>
         </div>
-        </div>
+      </div>
     )
 
 }
