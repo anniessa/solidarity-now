@@ -11,7 +11,8 @@ import {
     Radio,
     TextField,
     Checkbox
-} from "@mui/material"
+} from "@mui/material";
+import './PostItem.css';
 
 function PostItem({post}) {
     const dispatch = useDispatch();
@@ -20,11 +21,18 @@ function PostItem({post}) {
     const user = useSelector((store) => store.user);
     const tagsPosts = useSelector((store) =>  store.tagsPosts);
 
-    console.log(tagsPosts)
+    console.log('tagsPosts', tagsPosts)
   useEffect(() => {
     dispatch({type: 'GET_POST_BY_ID', payload: user.id}),
     dispatch({type: 'GET_TAG_RELATIONS'})
   }, []);
+
+  const handleDelete = () => {
+    dispatch({ type: "DELETE_POST", payload: post.id})
+    console.log(
+        'post id', post.id
+    )
+  }
  
     const [isEditing, setEditing] = useState(false);
 
@@ -142,18 +150,25 @@ function PostItem({post}) {
                 </>
               ) : (
                 <>
-                <Grid item>
+                <Grid item
+                justify-content='space-between'> 
                 <Card>
                   <CardContent>
+                    <p className="card-item-title">Request or Offer?</p>
                     <p>{post.post_type}</p>
+                    <p className="card-item-title">What are you requesting or offering?</p>
                     <p>{post.content}</p>
+                    <p className="card-item-title">Any additional resources you'd like to share?</p>
                     <p>{post.additional_resource}</p>
+                    <p className="card-item-title">Tags</p>
                     <TagItem post={post} />
 
-                    <Button>Delete</Button>
-                    <Button
-                      onClick={handleEdit}
+                    <div className='btn-group'>
+                    <Button className='delete-btn' onClick={handleDelete}
+                    >Delete</Button>
+                    <Button className='edit-btn' onClick={handleEdit}
                     >Edit</Button>
+                    </div>
                   </CardContent>
                   </Card>
                   </Grid>

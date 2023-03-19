@@ -120,7 +120,20 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500)
   }
 
-  
-})
+  router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText= `
+    DELETE FROM "posts" WHERE id = $1 and "user_id" = $2;
+    `;
+    pool.query(sqlText, [req.params.id, req.user.id])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.error(`Error deleting post`, error);
+      res.sendStatus(500);
+    });
+  });
+
+});
 
 module.exports = router;

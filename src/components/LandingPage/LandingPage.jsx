@@ -20,7 +20,7 @@ function LandingPage() {
       <div className="grid">
         <div className="grid-col grid-col_8">
           <p>
-            Solidarity Now! is an application that aggregates and amplifies!
+            Solidarity Now! is an application that aggregates and amplifies different requests and offers of mutual aid and other acts of solidarity.
           </p>
 
         
