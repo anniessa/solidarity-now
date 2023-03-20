@@ -1,0 +1,11 @@
+.card-item-title {
+    font-weight: bold;
+    font-size: medium;
+}
+
+.btn-group {
+  margin-right: 10px;
+  margin-left: 10px;
+  justify-content: space-between;
+}
+

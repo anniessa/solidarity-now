@@ -11,26 +11,35 @@ import {
     Radio,
     TextField,
     Checkbox
-} from "@mui/material"
+} from "@mui/material";
+import './PostItem.css';
 
 function PostItem({post}) {
     const dispatch = useDispatch();
 
     const tags = useSelector((store) => store.tag);
     const user = useSelector((store) => store.user);
+    const tagsPosts = useSelector((store) =>  store.tagsPosts);
 
+    // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
-    dispatch({type: 'GET_POST_BY_ID', payload: user.id})
+    dispatch({type: 'GET_POST_BY_ID', payload: user.id}),
+    dispatch({type: 'GET_TAG_RELATIONS'})
   }, []);
- 
 
+  const handleDelete = () => {
+    dispatch({ type: "DELETE_POST", payload: post.id})
+    // console.log('post id', post.id)
+  }
+ 
     const [isEditing, setEditing] = useState(false);
-  
+
     let [fullPost, setFullPost] = useState({
+      postId: post.id,
       post_type: post.post_type,
       content: post.content,
       additional_resource: post.additional_resource,
-      tag_ids: [tags.id],
+      tag_ids: [tagsPosts.tags_id]
     })
 
     const handleEdit = () => {
@@ -55,7 +64,7 @@ function PostItem({post}) {
   }
   
     const handleEditSubmit = (event) => {
-      event.preventDefault;
+      event.preventDefault();
       dispatch({
         type: 'EDIT_POST',
         payload: fullPost
@@ -67,16 +76,22 @@ function PostItem({post}) {
         <div className='container'>
             <Grid
               container
-              spacing={0}
+              display="flex"
               direction="column"
-              alignItems="center"
-              justify="center"
-              style={{ maxHeight: 500 }}
+              alignItems="stretch"
+              justify="space-evenly"
+              spacing={2}
+            //   style={{ maxHeight: 500 }}
             >
               {isEditing ? (
                 <>
                   <form onSubmit={handleEditSubmit}>
-                    <Card sx={{ maxWidth: 800 }} key={post.id}>
+                    <Grid 
+                    item 
+                    display="flex"
+                    >
+                    <Card 
+                    sx={{ maxWidth: 500, height: 650 }} key={post.id}>
                       <CardContent>
                         <RadioGroup
                           row
@@ -117,30 +132,44 @@ function PostItem({post}) {
                                   value={tag.id}
                                   label={tag.tag_name} />
                               </li>
-                            );
+                             );
                           })}
                         </ul>
-                        <Button onClick={handleEdit}> Cancel </Button>
-                        <Button type="submit" value="Save"> Save </Button>
+                        <Button type="button" onClick={handleEdit}> 
+                        Cancel 
+                        </Button>
+                        <Button type="submit" value="save" 
+                        > Save 
+                        </Button>
                       </CardContent>
                     </Card>
+                    </Grid>
                   </form>
                 </>
               ) : (
                 <>
+                <Grid item
+                justify-content='space-between'> 
                 <Card>
                   <CardContent>
+                    <p className="card-item-title">Request or Offer?</p>
                     <p>{post.post_type}</p>
+                    <p className="card-item-title">What are you requesting or offering?</p>
                     <p>{post.content}</p>
+                    <p className="card-item-title">Any additional resources you'd like to share?</p>
                     <p>{post.additional_resource}</p>
+                    <p className="card-item-title">Tags</p>
                     <TagItem post={post} />
 
-                    <Button>Delete</Button>
-                    <Button
-                      onClick={handleEdit}
+                    <div className='btn-group'>
+                    <Button className='delete-btn' onClick={handleDelete}
+                    >Delete</Button>
+                    <Button className='edit-btn' onClick={handleEdit}
                     >Edit</Button>
+                    </div>
                   </CardContent>
                   </Card>
+                  </Grid>
                 </>
 
               )

@@ -77,90 +77,93 @@ function OffersForm() {
     return (
         <>
             <form className='container' onSubmit={handleSubmit}>
-            <h2 className="title">Offers/Requests</h2>
+                <div className="center">
+                    <h2 className="title">Offers/Requests</h2>
+                    <img src={HandHeart} />
+                </div>
                 <Grid
                     container
                     spacing={0}
                     direction="column"
                     alignItems="center"
                     justify="center"
-                    style={{ minHeight: '100vh' }}
+                // style={{ minHeight: 400 }}
                 >
-                    <Grid item xs={3}>
-                <Card sx={{ maxWidth: 300 }}>
-                    <CardMedia
-                        sx={{ height: 270 }}
-                        image={HandHeart}
-                        title='Solidarity Now!'
-                    />
-                    <CardContent>
+                    <Grid item m={4}>
+                        <Card sx={{ maxWidth: 500 }}>
+
+                            <CardContent>
+
+                                <FormControl error={error}>
+                                    <div className='form'>
+                                        <div className='radio-group'>
+                                            <RadioGroup
+                                                row
+                                                aria-labelledby='offer-request-form'
+                                                name='Offer or Request'
+                                                value={fullPost.post_type}
+                                                onChange={(e) => { handleChange(e, 'post_type') }}
+                                            >
+                                                <FormControlLabel value='Request' control={<Radio />} label='Request' />
+                                                <FormControlLabel value='Offer' control={<Radio />} label='Offer' />
+                                            </RadioGroup>
+                                        </div>
+                                        <FormHelperText>{helperText}</FormHelperText>
+
+                                        <TextField
+                                            className="text-field"
+                                            fullWidth
+                                            label="What are you offering/requesting?"
+                                            value={fullPost.content}
+                                            onChange={(e) => { handleChange(e, 'content') }}
+                                        />
+                                        <TextField
+                                            className="text-field"
+                                            fullWidth
+                                            label="Any resources you want to share?"
+                                            value={fullPost.additional_resource}
+                                            onChange={(e) => { handleChange(e, 'additional_resource') }}
+                                        />
+
+                                        <ul className='tags'>
+                                            <p>Tags</p>
+                                            {tags.map(tag => {
+
+                                                return (
+                                                    <li key={tag.id}>
+                                                        <FormControlLabel
+                                                            control={
+                                                                <Checkbox
+                                                                    checked={fullPost.tag_ids.includes(tag.id)}
+                                                                    onChange={handleTag}
+                                                                    inputProps={{ 'aria-label': 'controlled' }} />}
+                                                            value={tag.id}
+                                                            label={tag.tag_name} />
+                                                    </li>
+                                                );
+
+                                            })}
+                                        </ul>
 
 
-                        <FormControl error={error}>
-                            <div className='form'>
-                            <div className='radio-group'>
-                                <RadioGroup
-                                    row
-                                    aria-labelledby='offer-request-form'
-                                    name='Offer or Request'
-                                    value={fullPost.post_type}
-                                    onChange={(e) => { handleChange(e, 'post_type') }}
-                                >
-                                    <FormControlLabel value='Request' control={<Radio />} label='Request' />
-                                    <FormControlLabel value='Offer' control={<Radio />} label='Offer' />
-                                </RadioGroup>
-                                </div>
-                                <FormHelperText>{helperText}</FormHelperText>
-                                <TextField 
-                                    className="text-field"
-                                    fullWidth
-                                    label="What are you offering/requesting?"
-                                    value={fullPost.content}
-                                    onChange={(e) => { handleChange(e, 'content') }}
-                                />
-                                <TextField 
-                                    className="text-field"
-                                    fullWidth
-                                    label="Any resources you want to share?"
-                                    value={fullPost.additional_resource}
-                                    onChange={(e) => { handleChange(e, 'additional_resource') }}
-                                />
-                                <ul className='tags'>
-                                    <p>Tags</p>
-                                    {tags.map(tag => {
-                                        
-                                        return (
-                                            <li key={tag.id}>
-                                                <FormControlLabel
-                                                    control={
-                                                        <Checkbox
-                                                            checked={fullPost.tag_ids.includes(tag.id)}
-                                                            onChange={handleTag}
-                                                            inputProps={{ 'aria-label': 'controlled' }} />}
-                                                    value={tag.id}
-                                                    label={tag.tag_name} />
-                                            </li>
-                                        );
+                                        <Button
+                                            type='submit'
+                                            value='Submit'>
+                                            Submit
+                                        </Button>
 
-                                    })}
-                                </ul>
+                                    </div>
 
-                                
-                                <Button
-                                    type='submit'
-                                    value='Submit'>
-                                    Submit
-                                </Button>
-                            </div>
-                            
 
-                        </FormControl>
-                    </CardContent>
+                                </FormControl>
+                            </CardContent>
 
-                </Card>
-                </Grid>
+
+                        </Card>
+                    </Grid>
                 </Grid>
             </form>
+
         </>
     )
 }

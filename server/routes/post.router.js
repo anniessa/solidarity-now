@@ -9,7 +9,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', (req, res) => {
   // GET route code here
   const sqlText =  `
-  SELECT "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+  SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
   RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
   RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
   GROUP BY "posts".id;
@@ -24,15 +24,15 @@ router.get('/', (req, res) => {
     })
 });
 
-// returning a specific item by id
+// returning a specific post for each user by id
 router.get('/:id', (req, res) => {
   const sqlText =
     `
-    SELECT "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+    SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
     RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
     RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
     WHERE user_id = $1
-    GROUP BY "posts".post_type,  "posts".content, "posts".additional_resource;  
+    GROUP BY "posts".id, "posts".post_type,  "posts".content, "posts".additional_resource;  
  `
 //  console.log(req.user.id)
 //  console.log('hello world')
@@ -79,5 +79,61 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);  
   }
     });
+
+// Edit request by id -- update a post if authorized logged in user edits
+router.put('/:id', rejectUnauthenticated, async (req, res) => {
+  console.log(req.body);
+  console.log("req.params.id", req.params.id)
+  let tag_ids = req.body.tag_ids
+
+  try {
+  const sqlText = `
+  UPDATE post
+  SET "post_type", "content", "additional_resource"
+  WHERE id = $1 and user_id = $2;
+  `
+  result = await pool.query(sqlText, [
+    req.params.id,
+    req.user.id,
+    req.body.post_type,
+    req.body.content,
+    req.body.additional_resource
+  ])
+
+  // DELETE all tag-post relations for this post (we're going to rewrite new tags below)
+  const secondSqlText = 
+  `DELETE * FROM "tags_posts" 
+  WHERE id= $1;`
+  result = await pool.query(secondSqlText, [req.params.id] )
+  // INSERT new tags
+    const updatedTags = tag_ids.map(tagId => {
+    const insertPostTagQuery = `
+    INSERT INTO "tags_posts" ("posts_id", "tags_id")
+    VALUES ($1, $2);
+    `
+    pool.query(insertPostTagQuery, [req.params.id, tagId])
+    })
+    // returning an empty object, until the map is completed and once its completed, it sends status
+    Promise.all(updatedTags)
+    res.sendStatus(200)
+  } catch (error) {
+    res.sendStatus(500)
+  }
+
+  router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    const sqlText= `
+    DELETE FROM "posts" WHERE id = $1 and "user_id" = $2;
+    `;
+    pool.query(sqlText, [req.params.id, req.user.id])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.error(`Error deleting post`, error);
+      res.sendStatus(500);
+    });
+  });
+
+});
 
 module.exports = router;

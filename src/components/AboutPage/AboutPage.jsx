@@ -9,7 +9,9 @@ function AboutPage() {
   return (
     <div className="container">
       <div>
-        <p>This about page is for anyone to read!</p>
+        <p>Solidarity Now! is an application that aggregates and amplifies different requests and offers of mutual aid and other acts of solidarity.</p>
+
+        <p>Technologies used</p>
       </div>
     </div>
   );

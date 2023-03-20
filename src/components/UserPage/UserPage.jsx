@@ -24,9 +24,9 @@ function UserPage() {
       <h2 className="title">Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
 
-      <h3>You can edit your posts and resubmit, or delete them if they have been fulfilled!</h3>
+      <h3>You can edit your posts and resubmit or delete if they have been fulfilled.</h3>
 
-      <Box sx={{display: 'flex', flexDirection: 'row', flexWrap:'wrap'}}>
+      <Box sx={{display: 'flex', flexDirection: 'column', flexWrap:'wrap'}}>
         {posts.map((post, i) => {
                 return <PostItem key={i} post={post}/>
             })}
