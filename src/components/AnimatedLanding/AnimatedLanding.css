@@ -19,8 +19,8 @@
     border-radius: 50%;
     border: 1px solid #fff;
     position: absolute;
-    top: 125px;
-    left: 0;
+    top: 225px;
+    left: 55px;
     right: 0;
     margin: 0 auto;
     animation: circle 15s linear 0s infinite;

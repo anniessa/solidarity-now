@@ -21,7 +21,7 @@ function PostItem({post}) {
     const user = useSelector((store) => store.user);
     const tagsPosts = useSelector((store) =>  store.tagsPosts);
 
-    console.log('tagsPosts', tagsPosts)
+    // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
     dispatch({type: 'GET_POST_BY_ID', payload: user.id}),
     dispatch({type: 'GET_TAG_RELATIONS'})
@@ -29,9 +29,7 @@ function PostItem({post}) {
 
   const handleDelete = () => {
     dispatch({ type: "DELETE_POST", payload: post.id})
-    console.log(
-        'post id', post.id
-    )
+    // console.log('post id', post.id)
   }
  
     const [isEditing, setEditing] = useState(false);
@@ -41,7 +39,7 @@ function PostItem({post}) {
       post_type: post.post_type,
       content: post.content,
       additional_resource: post.additional_resource,
-      tag_ids: []
+      tag_ids: [tagsPosts.tags_id]
     })
 
     const handleEdit = () => {
@@ -93,7 +91,7 @@ function PostItem({post}) {
                     display="flex"
                     >
                     <Card 
-                    sx={{ maxWidth: 400, height: 650 }} key={post.id}>
+                    sx={{ maxWidth: 500, height: 650 }} key={post.id}>
                       <CardContent>
                         <RadioGroup
                           row

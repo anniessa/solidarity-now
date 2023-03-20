@@ -32,33 +32,38 @@ function SolidarityWeb() {
                         <div className='container' key={i}>
                             <Grid
                                 container
-                                spacing={0}
+                                display="flex"
                                 direction="column"
                                 alignItems="center"
                                 justify="center"
+                                spacing={3}
                                 style={{ maxHeight: 500 }}
                             >
-                                
 
-                                <Card sx={{ maxWidth: 500 }}>
-                                    <CardContent>
-                                        <p>{post.post_type}</p>
-                                        <p>{post.content}</p>
-                                        <p>{post.additional_resource}</p>
-                                    </CardContent>
-
-                                    <ul><TagItem post={post} /></ul>
-                                </Card>
+                                <Grid
+                                    item
+                                    display="flex"
+                                >
+                                    <Card sx={{ width: 270 }}>
+                                        <CardContent>
+                                            <p className="card-item-title">Request or Offer?</p>
+                                            <p>{post.post_type}</p>
+                                            <p className="card-item-title">What are you requesting or offering?</p>
+                                            <p>{post.content}</p>
+                                            <p className="card-item-title">Any additional resources you'd like to share?</p>
+                                            <p>{post.additional_resource}</p>
+                                            <p className="card-item-title">Tags</p>
+                                            <TagItem post={post} />
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
                             </Grid>
-
-                            
-
                         </div>
                     )
                 }
                 )}
             </section>
-            
+
         </div>
     )
 }

@@ -13,7 +13,7 @@ function* getTagRelation(){
 }
 
 function* tagsPostsSaga() {
-    yield takeLatest ('GET_TAG_RELATION', getTagRelation);
+    yield takeLatest ('GET_TAG_RELATIONS', getTagRelation);
 }
 
 export default tagsPostsSaga;
