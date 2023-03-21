@@ -31,7 +31,7 @@ function* editPost(action) {
     try {
         console.log('action.payload for edit post', action.payload)
         yield axios.put(`/api/post/${action.payload.postId}`, action.payload)
-        yield put({type: 'SET_POST'});
+        yield put({type: 'GET_POST'});
     } catch (error) {
         console.error(`Error with editing post`, error)
     }
@@ -50,7 +50,7 @@ function* addPost(action) {
             post_type: '',
             content: '',
             additional_resource: '',
-            tag_ids: []
+            tags: []
         })
         }
     } catch (error) {

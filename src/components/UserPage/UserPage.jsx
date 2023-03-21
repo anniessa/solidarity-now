@@ -28,7 +28,7 @@ function UserPage() {
 
       <Box sx={{display: 'flex', flexDirection: 'column', flexWrap:'wrap'}}>
         {posts.map((post, i) => {
-                return <PostItem key={i} post={post}/>
+                return <PostItem key={i} posts={post}/>
             })}
       </Box>
 

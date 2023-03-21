@@ -13,7 +13,7 @@ import './Nav.css';
 function Nav() {
   const user = useSelector((store) => store.user);
 
-  
+
 
   function changeLang(option) {
     localStorage.setItem('lang', option.target.value);
@@ -35,31 +35,33 @@ function Nav() {
 
     <div className="nav">
 
-      <img src={Logo} alt="Solidarity Now!" width="100" height="69"/>
+      <Link className='navLink' to="/landing">
+        <img src={Logo} alt="Solidarity Now!" />
+      </Link>
 
       <Link className="navLink" to="/about">
-          About
-        </Link>
-
-        <Link className="navLink" to="/resources">
-          Resources
-        </Link>
-
-        {!user.id && (
-      <Link className="navLink" to="login">
-        Login/Register
+        About
       </Link>
-        )}
 
-        <select className='drop-down-language' onChange={changeLang} value={lang}>
-          <option value="en">English</option>
-          <option value="ar">عربي</option>
-          <option value="es">Español</option>
-        </select>
-        <LogOutButton />
-        </div>
-        )
-        };
+      <Link className="navLink" to="/resources">
+        Resources
+      </Link>
 
-  
+      {!user.id && (
+        <Link className="navLink" to="login">
+          Login/Register
+        </Link>
+      )}
+
+      <select className='drop-down-language' onChange={changeLang} value={lang}>
+        <option value="en">English</option>
+        <option value="ar">عربي</option>
+        <option value="es">Español</option>
+      </select>
+      <LogOutButton />
+    </div>
+  )
+};
+
+
 export default Nav;

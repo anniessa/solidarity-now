@@ -25,7 +25,7 @@ function OffersForm() {
     }, []);
 
     const user = useSelector(store => store.user);
-    const tags = useSelector(store => store.tag);
+    const tagStore = useSelector(store => store.tag);
 
     const [error, setError] = useState(false);
     const [helperText, setHelperText] = useState('');
@@ -34,7 +34,7 @@ function OffersForm() {
         post_type: '',
         content: '',
         additional_resource: '',
-        tag_ids: [],
+        tags: [],
         user_id: user.id,
     })
 
@@ -42,19 +42,16 @@ function OffersForm() {
         setFullPost({ ...fullPost, [key]: event.target.value })
     };
 
-    const handleTag = (event) => {
-        // first worry about adding an id to the array.
-        const newCopy = { ...fullPost }
+    const handleTag = (tagObject) => {
+        // I want multiple checkboxes to be pushed into the fullPost.tags array
+        const newTag = { ...fullPost}
         // console.log(newCopy)
-        const tagId = Number(event.target.value);
-        // console.log(tagId, newCopy.tag_ids);
-        // console.log(newCopy.tag_ids.includes(tagId))
-        if (newCopy.tag_ids.includes(tagId)) {
-            newCopy.tag_ids = newCopy.tag_ids.filter((id) => id !== tagId)
+        if (newTag.tags.some(tag => tag.id === tagObject.id)) {
+            newTag.tags = newTag.tags.filter((id) => id !== tagObject.id)
         } else {
-            newCopy.tag_ids.push(tagId);
+            newTag.tags.push(tagObject);
         }
-        setFullPost(newCopy);
+        setFullPost(newTag);
     }
 
     const handleSubmit = (event) => {
@@ -126,19 +123,20 @@ function OffersForm() {
                                         />
 
                                         <ul className='tags'>
-                                            <p>Tags</p>
-                                            {tags.map(tag => {
 
+                                            <p>Tags</p>
+                                            
+                                            {tagStore.map((individualTag) => {
                                                 return (
-                                                    <li key={tag.id}>
+                                                    <li key={individualTag.id}>
                                                         <FormControlLabel
                                                             control={
                                                                 <Checkbox
-                                                                    checked={fullPost.tag_ids.includes(tag.id)}
-                                                                    onChange={handleTag}
+                                                                    checked={fullPost.tags.some(e => e.id === individualTag.id)}
+                                                                    onChange={(e) => handleTag(individualTag)}
                                                                     inputProps={{ 'aria-label': 'controlled' }} />}
-                                                            value={tag.id}
-                                                            label={tag.tag_name} />
+                                                            value={individualTag.id}
+                                                            label={individualTag.tag_name} />
                                                     </li>
                                                 );
 
