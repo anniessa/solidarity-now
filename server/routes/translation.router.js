@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();  
+require('dotenv').config();
 
-
-
-'https://translation.googleapis.com/v3/projects/112410317836659065117/locations/global:detectLanguage',
+router.post('/', (req,res) => {
+    req.query.api_key = process.env.GOOGLE_APPLICATION_CREDENTIALS;
  
+})
+
    
 

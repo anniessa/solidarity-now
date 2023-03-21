@@ -33,6 +33,7 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
+  
   // Instantiates a client
 const translationClient = new TranslationServiceClient();
 
