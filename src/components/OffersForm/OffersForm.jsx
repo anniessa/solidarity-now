@@ -18,6 +18,7 @@ import HandHeart from '../graphics/hand_heart.png'
 import './OffersForm.css';
 
 function OffersForm() {
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -72,7 +73,9 @@ function OffersForm() {
 
 
     return (
+        
         <>
+        
             <form className='container' onSubmit={handleSubmit}>
                 <div className="center">
                     <h2 className="title">Offers/Requests</h2>
