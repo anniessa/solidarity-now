@@ -9,7 +9,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', (req, res) => {
   // GET route code here
   const sqlText =  `
-  SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+  SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"
   RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
   RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
   GROUP BY "posts".id;
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const sqlText =
     `
-    SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, ARRAY_AGG("tags".tag_name) AS "tags_column" FROM "tags"
+    SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"
     RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
     RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
     WHERE user_id = $1
@@ -50,26 +50,23 @@ router.get('/:id', (req, res) => {
 
 router.post('/', rejectUnauthenticated, async (req, res) => {
   // POST route code here
-  console.log(req.user)
-  // console.log('req.body:', req.body)
-  let tag_ids = req.body.tag_ids
-
+  let tags = req.body.tags
   try {
     const insertPostQuery = `
     INSERT INTO "posts" ("post_type", "content", "additional_resource", "user_id")
     VALUES ($1, $2, $3, $4)
     RETURNING "id";`
      //RETURNING 'id' will give us back the id of the created post
-    result = await pool.query(insertPostQuery, [req.body.post_type, req.body.content, req.body.additional_resource, req.body.user_id])
+    result = await pool.query(insertPostQuery, [req.body.post_type, req.body.content, req.body.additional_resource, req.user.id])
     createdPostId = result.rows[0].id
 
     // mapping over the tag_ids array to do the query for EACH individual tag
-    const postTags = tag_ids.map(tagId => {
+    const postTags = tags.map(tag => {
     const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
     VALUES ($1, $2);
     `
-    pool.query(insertPostTagQuery, [createdPostId, tagId])
+    pool.query(insertPostTagQuery, [createdPostId, tag.id])
     })
     // returning an empty object, until the map is completed and once its completed, it sends status
     Promise.all(postTags)
@@ -82,14 +79,14 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 
 // Edit request by id -- update a post if authorized logged in user edits
 router.put('/:id', rejectUnauthenticated, async (req, res) => {
-  console.log(req.body);
+  console.log('req.body.tags', req.body.tags);
   console.log("req.params.id", req.params.id)
-  let tag_ids = req.body.tag_ids
+  let tags = req.body.tags
 
   try {
   const sqlText = `
-  UPDATE post
-  SET "post_type", "content", "additional_resource"
+  UPDATE posts
+  SET "post_type" = $3, "content" = $4, "additional_resource" = $5
   WHERE id = $1 and user_id = $2;
   `
   result = await pool.query(sqlText, [
@@ -102,21 +99,22 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
 
   // DELETE all tag-post relations for this post (we're going to rewrite new tags below)
   const secondSqlText = 
-  `DELETE * FROM "tags_posts" 
-  WHERE id= $1;`
+  `DELETE FROM "tags_posts" 
+  WHERE posts_id= $1;`
   result = await pool.query(secondSqlText, [req.params.id] )
   // INSERT new tags
-    const updatedTags = tag_ids.map(tagId => {
+    const updatedTags = tags.map(async tag => {
     const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
     VALUES ($1, $2);
     `
-    pool.query(insertPostTagQuery, [req.params.id, tagId])
+    await pool.query(insertPostTagQuery, [req.params.id, tag.id])
     })
     // returning an empty object, until the map is completed and once its completed, it sends status
-    Promise.all(updatedTags)
+   await Promise.all(updatedTags)
     res.sendStatus(200)
   } catch (error) {
+    console.log('server-side error for put', error)
     res.sendStatus(500)
   }
 

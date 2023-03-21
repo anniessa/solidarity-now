@@ -14,32 +14,29 @@ import {
 } from "@mui/material";
 import './PostItem.css';
 
-function PostItem({post}) {
+function PostItem({posts}) {
     const dispatch = useDispatch();
 
-    const tags = useSelector((store) => store.tag);
-    const user = useSelector((store) => store.user);
-    const tagsPosts = useSelector((store) =>  store.tagsPosts);
-
+    const tagsStore = useSelector((store) => store.tag);
+    
     // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
-    dispatch({type: 'GET_POST_BY_ID', payload: user.id}),
-    dispatch({type: 'GET_TAG_RELATIONS'})
-  }, []);
+    dispatch({type: 'GET_POST_BY_ID', payload: posts.id})
+        }, []);
 
   const handleDelete = () => {
-    dispatch({ type: "DELETE_POST", payload: post.id})
+    dispatch({ type: "DELETE_POST", payload: posts.id})
     // console.log('post id', post.id)
   }
  
     const [isEditing, setEditing] = useState(false);
 
     let [fullPost, setFullPost] = useState({
-      postId: post.id,
-      post_type: post.post_type,
-      content: post.content,
-      additional_resource: post.additional_resource,
-      tag_ids: [tagsPosts.tags_id]
+      postId: posts.id,
+      post_type: posts.post_type,
+      content: posts.content,
+      additional_resource: posts.additional_resource,
+      tags: posts.tags
     })
 
     const handleEdit = () => {
@@ -50,18 +47,16 @@ function PostItem({post}) {
       setFullPost({ ...fullPost, [key]: event.target.value })
     };
   
-    const handleTag = (event) => {
+    const handleTag = (tagObject) => {
       const newCopy = { ...fullPost }
-      const tagId = Number(event.target.value);
-      // console.log(tagId, newCopy.tag_ids);
-      // console.log(newCopy.tag_ids.includes(tagId))
-      if (newCopy.tag_ids.includes(tagId)) {
-          newCopy.tag_ids = newCopy.tag_ids.filter((id) => id !== tagId)
+      if (newCopy.tags.some(tag => tagObject.id === tag.id)) {
+          newCopy.tags = newCopy.tags.filter(tag => tag.id !== tagObject.id)
       } else {
-          newCopy.tag_ids.push(tagId);
+          newCopy.tags.push(tagObject);
       }
       setFullPost(newCopy);
   }
+
   
     const handleEditSubmit = (event) => {
       event.preventDefault();
@@ -71,8 +66,9 @@ function PostItem({post}) {
       });
       setEditing(!isEditing);
     }
-
+    console.log(fullPost);
     return (
+        
         <div className='container'>
             <Grid
               container
@@ -91,7 +87,7 @@ function PostItem({post}) {
                     display="flex"
                     >
                     <Card 
-                    sx={{ maxWidth: 500, height: 650 }} key={post.id}>
+                    sx={{ maxWidth: 500, height: 650 }} key={posts.id}>
                       <CardContent>
                         <RadioGroup
                           row
@@ -120,17 +116,17 @@ function PostItem({post}) {
                         />
                         <ul>
                           <p>Tags</p>
-                          {tags.map(tag => {
+                          {tagsStore.map(storedTag => {
                             return (
-                              <li key={tag.id}>
+                              <li key={storedTag.id}>
                                 <FormControlLabel
                                   control={
                                     <Checkbox
-                                      checked={fullPost.tag_ids.includes(tag.id)}
-                                      onChange={handleTag}
+                                      checked={fullPost.tags.some(tag => tag?.id === storedTag?.id)  }
+                                      onChange={(e) => handleTag(storedTag)}
                                       inputProps={{ 'aria-label': 'controlled' }} />}
-                                  value={tag.id}
-                                  label={tag.tag_name} />
+                                  value={storedTag.id}
+                                  label={storedTag.tag_name} />
                               </li>
                              );
                           })}
@@ -153,13 +149,13 @@ function PostItem({post}) {
                 <Card>
                   <CardContent>
                     <p className="card-item-title">Request or Offer?</p>
-                    <p>{post.post_type}</p>
+                    <p>{posts.post_type}</p>
                     <p className="card-item-title">What are you requesting or offering?</p>
-                    <p>{post.content}</p>
+                    <p>{posts.content}</p>
                     <p className="card-item-title">Any additional resources you'd like to share?</p>
-                    <p>{post.additional_resource}</p>
+                    <p>{posts.additional_resource}</p>
                     <p className="card-item-title">Tags</p>
-                    <TagItem post={post} />
+                    <TagItem posts={posts} />
 
                     <div className='btn-group'>
                     <Button className='delete-btn' onClick={handleDelete}

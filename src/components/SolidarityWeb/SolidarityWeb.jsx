@@ -53,7 +53,7 @@ function SolidarityWeb() {
                                             <p className="card-item-title">Any additional resources you'd like to share?</p>
                                             <p>{post.additional_resource}</p>
                                             <p className="card-item-title">Tags</p>
-                                            <TagItem post={post} />
+                                            <TagItem posts={post} />
                                         </CardContent>
                                     </Card>
                                 </Grid>

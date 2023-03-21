@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
+const {TranslationServiceClient} = require('@google-cloud/translate');
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -32,7 +33,31 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
+  // Instantiates a client
+const translationClient = new TranslationServiceClient();
 
+const projectId = 'solidarity-now';
+const location = 'global';
+const text = 'Hello, world!';
+
+async function translateText() {
+  // Construct request
+  const request = {
+      parent: `projects/${projectId}/locations/${location}`,
+      contents: [text],
+      mimeType: 'text/plain', // mime types: text/plain, text/html
+      sourceLanguageCode: 'en',
+      targetLanguageCode: 'es',
+  };
+
+  // Run request
+  const [response] = await translationClient.translateText(request);
+
+  for (const translation of response.translations) {
+      console.log(`Translation: ${translation.translatedText}`);
+  }
+}
+translateText();
 
 
   useEffect(() => {
@@ -40,6 +65,7 @@ function App() {
   }, [dispatch]);
 
   return (
+    
     <Router>
       <div>
         <Nav />
@@ -155,6 +181,7 @@ function App() {
       </div>
     </Router>
   );
+  
 }
 
 export default App;
