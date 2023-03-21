@@ -1,0 +1,14 @@
+.nav {
+    /* flex box layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    margin: 0 0 20px;
+    background-color: #20b000;
+    overflow: hidden;
+  }
+  
+.logo {
+    width: 200px;
+}

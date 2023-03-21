@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-const {TranslationServiceClient} = require('@google-cloud/translate');
+
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -25,6 +25,7 @@ import SolidarityWeb from '../SolidarityWeb/SolidarityWeb';
 import BottomNav from '../BottomNav/BottomNav';
 import ResourcesPage from '../ResourcesPage/ResourcesPage';
 import AnimatedLanding from '../AnimatedLanding/AnimatedLanding';
+import DrawerNav from '../DrawerNav/DrawerNav';
 
 
 import './App.css';
@@ -33,32 +34,6 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
-  
-  // Instantiates a client
-const translationClient = new TranslationServiceClient();
-
-const projectId = 'solidarity-now';
-const location = 'global';
-const text = 'Hello, world!';
-
-async function translateText() {
-  // Construct request
-  const request = {
-      parent: `projects/${projectId}/locations/${location}`,
-      contents: [text],
-      mimeType: 'text/plain', // mime types: text/plain, text/html
-      sourceLanguageCode: 'en',
-      targetLanguageCode: 'es',
-  };
-
-  // Run request
-  const [response] = await translationClient.translateText(request);
-
-  for (const translation of response.translations) {
-      console.log(`Translation: ${translation.translatedText}`);
-  }
-}
-translateText();
 
 
   useEffect(() => {
@@ -66,11 +41,12 @@ translateText();
   }, [dispatch]);
 
   return (
-    
+
     <Router>
       <div>
-        <Nav />
-        
+        {/* <Nav /> */}
+        <DrawerNav />
+
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/landing" />
@@ -89,9 +65,9 @@ translateText();
           </Route>
 
           <Route
-          exact
-          path="/resources">
-          <ResourcesPage />
+            exact
+            path="/resources">
+            <ResourcesPage />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
@@ -115,15 +91,15 @@ translateText();
           </ProtectedRoute>
 
           <ProtectedRoute
-          exact
-          path='/offersForm'>
+            exact
+            path='/offersForm'>
             {/* logged in shows Offers/Request Form else shows LoginPage */}
             <OffersForm />
           </ProtectedRoute>
 
           <ProtectedRoute
-          exact
-          path='/solidarityWeb'>
+            exact
+            path='/solidarityWeb'>
             {/* logged in shows Solidarity Web else shows LoginPage */}
             <SolidarityWeb />
           </ProtectedRoute>
@@ -170,7 +146,7 @@ translateText();
             }
           </Route>
 
-          
+
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
@@ -182,7 +158,7 @@ translateText();
       </div>
     </Router>
   );
-  
+
 }
 
 export default App;

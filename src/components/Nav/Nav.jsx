@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
@@ -13,23 +13,13 @@ import './Nav.css';
 function Nav() {
   const user = useSelector((store) => store.user);
 
+  useEffect(() => {
+    googleTranslateElementInit()
+  }, [])
 
-
-  function changeLang(option) {
-    localStorage.setItem('lang', option.target.value);
-    window.location.reload();
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
   }
-
-  const lang = localStorage.getItem('lang') || 'en';
-  // 
-
-  // function HandIcon(SvgIconProps) {
-  //   return (
-  //     <SvgIcon {...props}>
-  //       <HandHeart />
-  //     </SvgIcon>
-  //   )
-  // }
 
   return (
 
@@ -53,11 +43,9 @@ function Nav() {
         </Link>
       )}
 
-      <select className='drop-down-language' onChange={changeLang} value={lang}>
-        <option value="en">English</option>
-        <option value="ar">عربي</option>
-        <option value="es">Español</option>
-      </select>
+     
+      <div id="google_translate_element"></div>
+
       <LogOutButton />
     </div>
   )
