@@ -14,17 +14,14 @@ import {
     Button,
     TextField
 } from "@mui/material";
+import { useHistory } from "react-router-dom";
 import HandHeart from '../graphics/hand_heart.png'
 import './OffersForm.css';
 
 function OffersForm() {
     
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch({ type: 'GET_BY_TAG' });
-    }, []);
-
+    const history = useHistory();
     const user = useSelector(store => store.user);
     const tagStore = useSelector(store => store.tag);
 
@@ -67,6 +64,7 @@ function OffersForm() {
                 payload: fullPost,
                 callback: setFullPost
             })
+            history.push("/solidarityWeb")
 
         }
     }
@@ -79,7 +77,7 @@ function OffersForm() {
             <form className='container' onSubmit={handleSubmit}>
                 <div className="center">
                     <h2 className="title">Offers/Requests</h2>
-                    <img src={HandHeart} />
+                    <img src={HandHeart} style={{width: 200, height: 200}} />
                 </div>
                 <Grid
                     container

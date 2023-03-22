@@ -39,7 +39,6 @@ function UserPage() {
   return (
     <div className="container">
       <h2 className="title">Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
       <Avatar 
       alt='profile picture' 
       src={SpiderWeb}

@@ -25,7 +25,7 @@ function SolidarityWeb() {
             <section className='post-section'>
                 <div className="center">
                     <h2>Solidarity Web</h2>
-                    <img src={Web} />
+                    <img src={Web} style={{width: 200, height: 200}} />
                 </div>
                 {allPosts.map((post, i) => {
                     return (

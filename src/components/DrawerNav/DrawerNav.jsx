@@ -23,33 +23,25 @@ function DrawerNav() {
     const [open, setOpen] = useState(false);
     const [placement, setPlacement] = useState('left');
     const user = useSelector((store) => store.user);
-
-    useEffect(() => {
-        GoogleTranslateElementInit()
-      }, [])
     
-      const GoogleTranslateElementInit = () => {
-        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-
     return (
         <div>
-            <div className='button'>  
-            <Button  onClick={() => setOpen(true)}>
-                Menu
-                </Button> 
-                <div id="google_translate_element"></div>
-                </div>
-                
-                
-            <Drawer open={open} placement={placement} onClose={() => setOpen(false)}>
-            
+            <div className='button'>
+                <Button onClick={() => setOpen(true)}>
+                    Menu
+                </Button>
+            </div>
+
+            <Drawer PaperProps= {{
+                sx:{
+                    width: 300
+                }
+                }} open={open} placement={placement} onClose={() => setOpen(false)}>
                 <List>
-                
-                    <ListItem className='drawerNav'>  
-                        <Link  to="/landing" onClick={() => setOpen(false)}>
-                            <img src={Logo} alt="Solidarity Now!" />
-                        </Link>          
+                    <ListItem className='drawerNav'>
+                        <Link to="/landing" onClick={() => setOpen(false)}>
+                            <img src={Logo} alt="Solidarity Now!"  style={{margin: 0, height: 58}}/>
+                        </Link>
                     </ListItem>
 
                     <ListItem className='drawerNav'>
@@ -65,34 +57,34 @@ function DrawerNav() {
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
-                        <ListItemIcon sx={{width: 90}}>
-                        <img alt='Two hands holding one another in a heart shape' 
-                        src={HandHeart} />
-                        <Link className='drawerNav' 
-                        to="/offersForm" >
-                            Offers/Requests
-                        </Link>
+                        <ListItemIcon>
+                            <img alt='Two hands holding one another in a heart shape'
+                                src={HandHeart} style={{margin: 0, height: 40}}/>
+                            <Link className='drawerNav'
+                                to="/offersForm" >
+                                Offers/Requests
+                            </Link>
                         </ListItemIcon>
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
-                        <ListItemIcon sx={{width: 90}}>
-                       <img alt='spider web' 
-                       src={SpiderWeb} />
-                        <Link className='drawerNav'  
-                        to="/solidarityWeb" >
-                            Solidarity Web
-                        </Link>
+                        <ListItemIcon>
+                            <img alt='spider web'
+                                src={SpiderWeb} style={{margin: 0, height: 40}} />
+                            <Link className='drawerNav'
+                                to="/solidarityWeb" >
+                                Solidarity Web
+                            </Link>
                         </ListItemIcon>
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
-                    <ListItemIcon sx={{width: 90}}>
-                    <PersonOutlineIcon/>
-                        <Link className='drawerNav' 
-                        to="/user" >
-                            Dashboard
-                        </Link>
+                        <ListItemIcon sx={{ width: 90 }}>
+                            <PersonOutlineIcon />
+                            <Link className='drawerNav'
+                                to="/user" >
+                                Dashboard
+                            </Link>
                         </ListItemIcon>
                     </ListItem>
 
@@ -108,8 +100,8 @@ function DrawerNav() {
                         <LogOutButton className='drawerNav' />
                     </ListItem>
 
-                    
-                    
+
+
                 </List>
 
             </Drawer>
