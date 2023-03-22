@@ -26,7 +26,6 @@ function PostItem({posts}) {
 
   const handleDelete = () => {
     dispatch({ type: "DELETE_POST", payload: posts.id})
-    // console.log('post id', post.id)
   }
  
     const [isEditing, setEditing] = useState(false);
@@ -57,7 +56,6 @@ function PostItem({posts}) {
       setFullPost(newCopy);
   }
 
-  
     const handleEditSubmit = (event) => {
       event.preventDefault();
       dispatch({
@@ -66,7 +64,7 @@ function PostItem({posts}) {
       });
       setEditing(!isEditing);
     }
-    console.log(fullPost);
+    // console.log(fullPost);
     return (
         
         <div className='container'>
@@ -77,7 +75,6 @@ function PostItem({posts}) {
               alignItems="stretch"
               justify="space-evenly"
               spacing={2}
-            //   style={{ maxHeight: 500 }}
             >
               {isEditing ? (
                 <>
@@ -122,7 +119,7 @@ function PostItem({posts}) {
                                 <FormControlLabel
                                   control={
                                     <Checkbox
-                                      checked={fullPost.tags.some(tag => tag?.id === storedTag?.id)  }
+                                      checked={fullPost.tags?.some(tag => tag?.id === storedTag?.id)  }
                                       onChange={(e) => handleTag(storedTag)}
                                       inputProps={{ 'aria-label': 'controlled' }} />}
                                   value={storedTag.id}
