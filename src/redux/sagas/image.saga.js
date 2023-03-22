@@ -9,8 +9,16 @@ function* getImage() {
 
 }
 
+
 function* uploadImage(action) {
-    const result = axios.post('/', action.payload)
+    let formData = new FormData();
+    formData.append('name', action.name);
+    formData.append('file', action.payload)
+    axios.post('/', formData, {
+        headers: {
+            'Content-Type: '
+        }
+    })
     yield put({type: 'GET_IMAGE'})
 };
 

@@ -26,7 +26,6 @@ function PostItem({posts}) {
 
   const handleDelete = () => {
     dispatch({ type: "DELETE_POST", payload: posts.id})
-    // console.log('post id', posts.id)
   }
  
     const [isEditing, setEditing] = useState(false);

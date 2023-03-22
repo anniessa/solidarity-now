@@ -29,20 +29,17 @@ import './App.css';
 
 
 function App() {
+
+  const googleTranslateElementInit = () => {
+    new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+  }
+
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
-
-  const translation = () => {
-    const translationScript = "//translate.google.com/translate_a/element.js";
-    const state = translationHook(translationScript);
-    return (
-      <div>
-        {state === "ready" && <Translate />}
-      </div>
-    )
-  }
-
+  const translationScript = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  const state = translationHook(translationScript, googleTranslateElementInit);
+  
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' })
@@ -50,6 +47,7 @@ function App() {
 
   }, [dispatch]);
 
+  console.log('state', state);
 
 return (
 
@@ -57,8 +55,8 @@ return (
     <div>
       {/* <Nav /> */}
       <DrawerNav />
-      <Translate />
-      {translation()}
+      {state === "loading" && <p>Loading...</p>}
+      {state === "ready" && <Translate />}
 
       <Switch>
         {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -123,8 +121,8 @@ return (
         >
           {user.id ?
             // If the user is already logged in, 
-            // redirect to the /user page
-            <Redirect to="/user" />
+            // redirect to the /landing page
+            <Redirect to="/landing" />
             :
             // Otherwise, show the login page
             <LoginPage />
@@ -147,12 +145,12 @@ return (
 
         <Route
           exact
-          path="/home"
+          path="/"
         >
           {user.id ?
             // If the user is already logged in, 
-            // redirect them to the /user page
-            <Redirect to="/user" />
+            // redirect them to the /landing page
+            <Redirect to="/landing" />
             :
             // Otherwise, show the Landing page
             <LandingPage />

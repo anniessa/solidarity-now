@@ -27,7 +27,7 @@ function DrawerNav() {
     return (
         <div>
             <div className='button'>
-                <Button onClick={() => setOpen(true)}>
+                <Button onClick={() => setOpen(true)} color="secondary">
                     Menu
                 </Button>
             </div>
@@ -41,18 +41,6 @@ function DrawerNav() {
                     <ListItem className='drawerNav'>
                         <Link to="/landing" onClick={() => setOpen(false)}>
                             <img src={Logo} alt="Solidarity Now!"  style={{margin: 0, height: 58}}/>
-                        </Link>
-                    </ListItem>
-
-                    <ListItem className='drawerNav'>
-                        <Link className='drawerNav' to="/about" onClick={() => setOpen(false)}>
-                            About
-                        </Link>
-                    </ListItem>
-
-                    <ListItem className='drawerNav' onClick={() => setOpen(false)}>
-                        <Link className='drawerNav' to="/resources">
-                            Resources
                         </Link>
                     </ListItem>
 
@@ -83,9 +71,21 @@ function DrawerNav() {
                             <PersonOutlineIcon />
                             <Link className='drawerNav'
                                 to="/user" >
-                                Dashboard
+                                Profile
                             </Link>
                         </ListItemIcon>
+                    </ListItem>
+
+                    <ListItem className='drawerNav' onClick={() => setOpen(false)}>
+                        <Link className='drawerNav' to="/resources">
+                            Resources
+                        </Link>
+                    </ListItem>
+
+                    <ListItem className='drawerNav'>
+                        <Link className='drawerNav' to="/about" onClick={() => setOpen(false)}>
+                            About
+                        </Link>
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
@@ -97,7 +97,7 @@ function DrawerNav() {
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
-                        <LogOutButton className='drawerNav' />
+                        <LogOutButton />
                     </ListItem>
 
 

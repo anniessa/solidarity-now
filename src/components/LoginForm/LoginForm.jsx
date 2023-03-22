@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
 
@@ -19,6 +21,7 @@ function LoginForm() {
           password: password,
         },
       });
+      history.push('/landing')
     } else {
       dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }

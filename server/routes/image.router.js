@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+
 const aws = require('aws-sdk');
 const fs = require('fs');
 const router = express.Router();
@@ -33,8 +33,18 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 // }
 
 // exports.uploadFile = uploadFile;
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../../public/images/')
+    },
+    filename:  (req, file, cb)  => {
+        console.log(file)
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
 
 
+const upload = multer({storage: storage});
 
 
 //downloads a file from s3
@@ -43,33 +53,19 @@ router.get('/', function (req, res) {
 })
 
 
-router.post('/', rejectUnauthenticated, upload.single('image'), function (req, res) {
-
-    res.send('a-okay')
-    // let file = req.file;
-    // let sqlText = `INSERT INTO "user" ("picture")
-    // VALUES($1);`
-    // // console.log(file);
-    // pool.query(sqlText, [`images/${file.filename}`])
-    // .then((dbRes) => {
-    //     res.sendStatus(200);
-    // })
-    // .catch((err) => {
-    //     res.sendStatus(500);
-    //     console.log(err);
-    // })
-    
-
-
-})
-    // res.send({
-    //     message: "Uploaded!",
-    //     url: file.location,
-    //     name: file.key,
-    //     type: file.minetype,
-    //     size: file.size
-            
-    //     })
-
+router.post('/', rejectUnauthenticated, upload.single('image'), (req, res)  => {
+    let file = req.file;
+    let sqlText = `INSERT INTO "user" ("picture")
+    VALUES($1);`
+    // console.log(file);
+    pool.query(sqlText, [`images/${file.filename}`])
+    .then((dbRes) => {
+        res.sendStatus(200);
+    })
+    .catch((err) => {
+        res.sendStatus(500);
+        console.log(err);
+    })
+});
 
 module.exports = router;

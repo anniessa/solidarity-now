@@ -7,7 +7,19 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: center;
 }
+
+.form {
+    align-content: center;
+    justify-content: center;
+    margin: 0 70px;
+}
+
+.form Button {
+    margin: 0 60px;
+}
+
 
 
 
