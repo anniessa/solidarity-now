@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
     Drawer,
+    Box,
     Button,
     List,
-    ListItem
+    ListItem,
+    ListItemIcon
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Logo from '../graphics/logo.png';
+import HandHeart from '../graphics/hand_heart.png';
+import SpiderWeb from '../graphics/spider_web.png';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import LogOutButton from "../LogOutButton/LogOutButton";
 import './DrawerNav.css';
 
@@ -20,23 +25,31 @@ function DrawerNav() {
     const user = useSelector((store) => store.user);
 
     useEffect(() => {
-        googleTranslateElementInit()
+        GoogleTranslateElementInit()
       }, [])
     
-      function googleTranslateElementInit() {
+      const GoogleTranslateElementInit = () => {
         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
       }
-    
 
     return (
         <div>
-            <Button onClick={() => setOpen(true)}>Click me</Button>
-            <Drawer style={{ width: '50%' }} open={open} placement={placement} onClose={() => setOpen(false)}>
+            <div className='button'>  
+            <Button  onClick={() => setOpen(true)}>
+                Menu
+                </Button> 
+                <div id="google_translate_element"></div>
+                </div>
+                
+                
+            <Drawer open={open} placement={placement} onClose={() => setOpen(false)}>
+            
                 <List>
-                    <ListItem className='drawerNav'>
+                
+                    <ListItem className='drawerNav'>  
                         <Link  to="/landing" onClick={() => setOpen(false)}>
                             <img src={Logo} alt="Solidarity Now!" />
-                        </Link>
+                        </Link>          
                     </ListItem>
 
                     <ListItem className='drawerNav'>
@@ -52,6 +65,38 @@ function DrawerNav() {
                     </ListItem>
 
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
+                        <ListItemIcon sx={{width: 90}}>
+                        <img alt='Two hands holding one another in a heart shape' 
+                        src={HandHeart} />
+                        <Link className='drawerNav' 
+                        to="/offersForm" >
+                            Offers/Requests
+                        </Link>
+                        </ListItemIcon>
+                    </ListItem>
+
+                    <ListItem className='drawerNav' onClick={() => setOpen(false)}>
+                        <ListItemIcon sx={{width: 90}}>
+                       <img alt='spider web' 
+                       src={SpiderWeb} />
+                        <Link className='drawerNav'  
+                        to="/solidarityWeb" >
+                            Solidarity Web
+                        </Link>
+                        </ListItemIcon>
+                    </ListItem>
+
+                    <ListItem className='drawerNav' onClick={() => setOpen(false)}>
+                    <ListItemIcon sx={{width: 90}}>
+                    <PersonOutlineIcon/>
+                        <Link className='drawerNav' 
+                        to="/user" >
+                            Dashboard
+                        </Link>
+                        </ListItemIcon>
+                    </ListItem>
+
+                    <ListItem className='drawerNav' onClick={() => setOpen(false)}>
                         {!user.id && (
                             <Link to="login">
                                 Login/Register
@@ -59,14 +104,12 @@ function DrawerNav() {
                         )}
                     </ListItem>
 
-                    
-                    <div id="google_translate_element"></div>
-                  
-
                     <ListItem className='drawerNav' onClick={() => setOpen(false)}>
                         <LogOutButton className='drawerNav' />
                     </ListItem>
 
+                    
+                    
                 </List>
 
             </Drawer>

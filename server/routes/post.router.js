@@ -119,6 +119,7 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
   }
 
   router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    console.log(req.params.id)
     const sqlText= `
     DELETE FROM "posts" WHERE id = $1 and "user_id" = $2;
     `;
