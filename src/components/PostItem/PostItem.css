@@ -9,3 +9,7 @@
   justify-content: space-between;
 }
 
+.text-field {
+  flex-direction: column;
+  margin-top: 10px;
+}

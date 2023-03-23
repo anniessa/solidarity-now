@@ -14,10 +14,12 @@ function SolidarityWeb() {
     const dispatch = useDispatch();
 
     const allPosts = useSelector(store => store.post);
+    const user = useSelector(store => store.post);
+
     // console.log('store posts on solidarity web', allPosts);
 
     useEffect(() => {
-        dispatch({ type: "GET_POST" })
+        dispatch({ type: 'GET_POST'})
     }, []);
 
     return (
@@ -41,11 +43,13 @@ function SolidarityWeb() {
                             >
 
                                 <Grid
-                                    item
+                                    item m={4}
                                     display="flex"
                                 >
-                                    <Card sx={{ width: 270 }}>
+                                    <Card sx={{ width: 300 }}>
                                         <CardContent>
+                                            <p className="card-item-title">Posted by: </p>
+                                            <p>{post.username}</p>
                                             <p className="card-item-title">Request or Offer?</p>
                                             <p>{post.post_type}</p>
                                             <p className="card-item-title">What are you requesting or offering?</p>

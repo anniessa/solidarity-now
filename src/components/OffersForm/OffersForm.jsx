@@ -19,7 +19,7 @@ import HandHeart from '../graphics/hand_heart.png'
 import './OffersForm.css';
 
 function OffersForm() {
-    
+
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector(store => store.user);
@@ -42,7 +42,7 @@ function OffersForm() {
 
     const handleTag = (tagObject) => {
         // I want multiple checkboxes to be pushed into the fullPost.tags array
-        const newTag = { ...fullPost}
+        const newTag = { ...fullPost }
         // console.log(newCopy)
         if (newTag.tags.some(tag => tag.id === tagObject.id)) {
             newTag.tags = newTag.tags.filter((id) => id !== tagObject.id)
@@ -71,29 +71,28 @@ function OffersForm() {
 
 
     return (
-        
+
         <>
-        
-            <form className='container' onSubmit={handleSubmit}>
+
+            <form onSubmit={handleSubmit}>
                 <div className="center">
                     <h2 className="title">Offers/Requests</h2>
-                    <img src={HandHeart} style={{width: 200, height: 200}} />
+                    <img src={HandHeart} style={{ width: 200, height: 200 }} />
                 </div>
                 <Grid
                     container
                     spacing={0}
+                    display='flex'
                     direction="column"
                     alignItems="center"
                     justify="center"
-                // style={{ minHeight: 400 }}
+                    sx={{ maxWidth: '350px' }}
                 >
-                    <Grid item m={4}>
-                        <Card sx={{ maxWidth: 500 }}>
-
-                            <CardContent>
-
+                    <Grid item m={2}>
+                        <Card>
+                            <CardContent >
                                 <FormControl error={error}>
-                                    <div className='form'>
+                                    <div>
                                         <div className='radio-group'>
                                             <RadioGroup
                                                 row
@@ -108,25 +107,25 @@ function OffersForm() {
                                         </div>
                                         <FormHelperText>{helperText}</FormHelperText>
 
-                                        <TextField
-                                            className="text-field"
-                                            fullWidth
-                                            label="What are you offering/requesting?"
-                                            value={fullPost.content}
-                                            onChange={(e) => { handleChange(e, 'content') }}
-                                        />
-                                        <TextField
-                                            className="text-field"
-                                            fullWidth
-                                            label="Any resources you want to share?"
-                                            value={fullPost.additional_resource}
-                                            onChange={(e) => { handleChange(e, 'additional_resource') }}
-                                        />
+                                        <div className="text-field">
+                                            <TextField
+                                                fullWidth
+                                                label="What are you offering/requesting?"
+                                                value={fullPost.content}
+                                                onChange={(e) => { handleChange(e, 'content') }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                label="Any resources you want to share?"
+                                                value={fullPost.additional_resource}
+                                                onChange={(e) => { handleChange(e, 'additional_resource') }}
+                                            />
+                                        </div>
 
                                         <ul className='tags'>
 
                                             <p>Tags</p>
-                                            
+
                                             {tagStore.map((individualTag) => {
                                                 return (
                                                     <li key={individualTag.id}>
@@ -162,6 +161,7 @@ function OffersForm() {
                     </Grid>
                 </Grid>
             </form>
+
 
         </>
     )

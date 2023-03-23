@@ -47,13 +47,12 @@ function App() {
 
   }, [dispatch]);
 
-  console.log('state', state);
+  // console.log('state', state);
 
 return (
 
   <Router>
     <div>
-      {/* <Nav /> */}
       <DrawerNav />
       {state === "loading" && <p>Loading...</p>}
       {state === "ready" && <Translate />}

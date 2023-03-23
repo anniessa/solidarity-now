@@ -1,10 +1,29 @@
+-- database: solidarity-now
 
--- USER is a reserved keyword with Postgres
--- You must use double quotes in every query that user is in:
--- ex. SELECT * FROM "user";
--- Otherwise you will have errors!
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
+    "password" VARCHAR (1000) NOT NULL,
+    "picture" VARCHAR (1000),
+    "isAdmin" BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE "tags" (
+	"id" SERIAL PRIMARY KEY,
+	"tag_name" VARCHAR (80) 
+);
+
+CREATE TABLE "posts" (
+	"id" SERIAL PRIMARY KEY, 
+	"post_type" VARCHAR (80) NOT NULL,
+	"content" TEXT NOT NULL,
+	"additional_resource" VARCHAR (1000) NOT NULL,
+	"user_id" INT
+);
+	
+
+CREATE TABLE "tags_posts" (
+	"id" SERIAL PRIMARY KEY,
+	"tags_id" INT REFERENCES "tags",
+	"posts_id" INT REFERENCES "posts" ON DELETE CASCADE
 );
