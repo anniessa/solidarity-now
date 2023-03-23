@@ -3,17 +3,15 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
-/**
- * GET route template
- */
+//getting ALL the posts with username associated
 router.get('/', rejectUnauthenticated, (req, res) => {
-  // GET route code here
+
   const sqlText =  `
-  SELECT "posts".id, "user".username, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"
-  RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
-  RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
-  RIGHT JOIN "user" ON "user".id = "posts".user_id
-  GROUP BY "posts".id, "user".username;
+  SELECT "posts".id, "user".username, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "posts"
+JOIN "tags_posts" ON "posts".id = "tags_posts".posts_id
+JOIN "tags" ON "tags".id = "tags_posts".tags_id
+JOIN "user" ON "user".id = "posts".user_id
+GROUP BY "posts".id, "user".username;
 `
   pool.query(sqlText)
     .then(result => {

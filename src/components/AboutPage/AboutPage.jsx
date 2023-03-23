@@ -24,7 +24,7 @@ function AboutPage() {
 
         <p className='title'> Thank you! </p>
         <li>Amethyst Cohort</li>
-        <li>Dane, Key, Edan, Kris, Bethany, Christy, Bellamy and all Prime staff and community</li>
+        <li>Dane, Key, Edan,  Vada, Mary, Kris, Bethany, Christy, Bellamy and all Prime staff and community</li>
         <li>Friends and Family</li>
         <li>Viewers Like You!</li>
 

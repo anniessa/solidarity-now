@@ -59,6 +59,7 @@ function* addPost(action) {
 }
 
 function* deletePost(action) {
+    console.log('action.payload', action.payload)
     const swal = withReactContent(Swal);
 
     try {
@@ -73,8 +74,8 @@ function* deletePost(action) {
             showCancelButton: true
         })
         if(sweet.isConfirmed) {
-            const response = yield axios.delete(`/api/post/${action.payload}`)
-            yield put({type: 'GET_POST', payload: response.data})
+            yield axios.delete(`/api/post/${action.payload}`);
+            yield put({type: 'GET_POST'})
         }
     } catch (error) {
         console.error('Error deleting post', error);

@@ -43,7 +43,7 @@ function SolidarityWeb() {
                             >
 
                                 <Grid
-                                    item m={2}
+                                    item m={4}
                                     display="flex"
                                 >
                                     <Card sx={{ width: 300 }}>
