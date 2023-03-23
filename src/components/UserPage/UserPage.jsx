@@ -30,7 +30,7 @@ function UserPage() {
 
   // event handler to manage file change and update reducer
   function fileSelected(event){
-    const selectedFile = [...event.target.file];
+    const selectedFile = event.target.files[0];
     dispatch({
       type: 'UPLOAD_IMAGE',
       payload: {
@@ -46,7 +46,7 @@ function UserPage() {
       <form className='form' onSubmit={submitFile} encType="multipart/form-data">
       <Avatar
         alt='profile picture'
-        src={SpiderWeb}
+        src={SpiderWeb} //image.url
         sx={{ width: 70, height: 70 }} />
         <input onChange={fileSelected} type='file'></input>
         <Button type='submit' color='secondary'>Upload Picture</Button>

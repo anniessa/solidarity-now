@@ -17,12 +17,12 @@ function* uploadImage(action) {
         //receive array of files
         const newFile = action.payload;
         const data = new FormData(); //declare FormData (IMPORTANT STEP!!)
-        data.append('file', newFile.files)
+        data.append('file', newFile.files) // this data contains this file and contains this header
 
         yield console.log('Post new files to upload', data);
         const response = yield axios.post('/api/images/files', data, {
             headers: {
-                'Content-Type': 'multipart / form-data' 
+                'content-type': 'multipart / form-data' 
             }
           });
           yield put({ type: 'REFRESH_IMAGE', payload: response.data })
