@@ -6,13 +6,14 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
   // GET route code here
   const sqlText =  `
-  SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"
+  SELECT "posts".id, "user".username, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"
   RIGHT JOIN "tags_posts" ON "tags".id = "tags_posts".tags_id
   RIGHT JOIN "posts" ON "posts".id = "tags_posts".posts_id
-  GROUP BY "posts".id;
+  RIGHT JOIN "user" ON "user".id = "posts".user_id
+  GROUP BY "posts".id, "user".username;
 `
   pool.query(sqlText)
     .then(result => {
@@ -25,7 +26,7 @@ router.get('/', (req, res) => {
 });
 
 // returning a specific post for each user by id
-router.get('/:id', (req, res) => {
+router.get('/:id', rejectUnauthenticated, (req, res) => {
   const sqlText =
     `
     SELECT "posts".id, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "tags"

@@ -1,30 +1,39 @@
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
-const baseURL = process.env.APP_API;
-
-const user = useSelector(store => store.user);
-
-function* getImage() {
+function* fetchImage() {
+    try {
+    const response = yield axios.get('/api/images');
+    yield put({type: 'SET_IMAGE', payload: response.data})
+    } catch (error) {
+        console.log('error refreshing image', error)
+    }
 
 }
 
 
 function* uploadImage(action) {
-    let formData = new FormData();
-    formData.append('name', action.name);
-    formData.append('file', action.payload)
-    axios.post('/', formData, {
-        headers: {
-            'Content-Type: '
-        }
-    })
-    yield put({type: 'GET_IMAGE'})
-};
+    console.log('files', action.payload)
+    try {
+        //receive array of files
+        const newFile = action.payload;
+        const data = new FormData(); //declare FormData (IMPORTANT STEP!!)
+        data.append('file', newFile.files)
 
-function* ImageSaga(){
+        yield console.log('Post new files to upload', data);
+        const response = yield axios.post('/api/images/files', data, {
+            headers: {
+                'Content-Type': 'multipart / form-data' 
+            }
+          });
+          yield put({ type: 'REFRESH_IMAGE', payload: response.data })
+    } catch (error) {
+        console.log('error in uploadImage)', error)
+    }
+}
+
+function* ImageSaga() {
     yield takeLatest('UPLOAD_IMAGE', uploadImage);
-    yield takeLatest('GET_IMAGE', getImage);
+    yield takeLatest('FETCH_IMAGE', fetchImage);
 }
 
 export default ImageSaga;

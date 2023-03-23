@@ -32,7 +32,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 app.use('/api/tag', tagRouter);
-app.use('/api/upload', imageRouter);
+app.use('/api/images', imageRouter);
 
 // Serve static files
 app.use(express.static('build'));

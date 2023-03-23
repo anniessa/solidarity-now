@@ -81,10 +81,10 @@ function PostItem({posts}) {
                   <form onSubmit={handleEditSubmit}>
                     <Grid 
                     item 
-                    display="flex"
+                    m={2}
                     >
                     <Card 
-                    sx={{ maxWidth: 500, height: 650 }} key={posts.id}>
+                    sx={{ maxWidth: 300, height: 800 }} key={posts.id}>
                       <CardContent>
                         <RadioGroup
                           row
@@ -142,8 +142,8 @@ function PostItem({posts}) {
               ) : (
                 <>
                 <Grid item
-                justify-content='space-between'> 
-                <Card>
+                m={2}> 
+                <Card sx={{ maxWidth: 300, height: 400 }}>
                   <CardContent>
                     <p className="card-item-title">Request or Offer?</p>
                     <p>{posts.post_type}</p>
