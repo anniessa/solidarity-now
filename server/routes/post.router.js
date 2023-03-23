@@ -117,6 +117,8 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500)
   }
 
+});
+
   router.delete('/:id', rejectUnauthenticated, (req, res) => {
     console.log(req.params.id)
     const sqlText= `
@@ -132,6 +134,6 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
     });
   });
 
-});
+
 
 module.exports = router;

@@ -28,6 +28,12 @@ function AboutPage() {
         <li>Friends and Family</li>
         <li>Viewers Like You!</li>
 
+        <p className='title'> GitHub </p>
+        <li>gitHub.com/anniessa</li>
+
+        <p className='title'> LinkedIn</p>
+        <li>linkedin.com/in/anniessa-antar/</li>
+
       </div>
     </div>
   );

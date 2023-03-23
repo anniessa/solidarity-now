@@ -1,12 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.title {
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+}
 .about-text {
     text-align: center; 
+    align-items: center;
     border-radius:4px;
     font-size:16px;
     padding:15px;
     margin:5px;
+
 }
 
 li {
+    align-items: center;
     list-style: none;
     text-align: center;
     margin: 6px;
