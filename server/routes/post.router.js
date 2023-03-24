@@ -7,11 +7,11 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', rejectUnauthenticated, (req, res) => {
 
   const sqlText = `
-  SELECT "posts".id, "user".username, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "posts"
+  SELECT "posts".id, "user".username, "user".picture, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "posts"
 JOIN "tags_posts" ON "posts".id = "tags_posts".posts_id
 JOIN "tags" ON "tags".id = "tags_posts".tags_id
 JOIN "user" ON "user".id = "posts".user_id
-GROUP BY "posts".id, "user".username;
+GROUP BY "posts".id, "user".username, "user".picture;
 `
   pool.query(sqlText)
     .then(result => {
