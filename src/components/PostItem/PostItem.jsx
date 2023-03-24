@@ -19,10 +19,12 @@ function PostItem({ posts }) {
   const dispatch = useDispatch();
 
   const tagsStore = useSelector((store) => store.tag);
+  const user = useSelector((store) => store.user);
+
 
   // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
-    dispatch({ type: 'GET_POST_BY_ID', payload: posts.id })
+    dispatch({ type: 'GET_POST_BY_ID', payload: user.id })
   }, []);
 
   const handleDelete = () => {
@@ -32,7 +34,7 @@ function PostItem({ posts }) {
   const [isEditing, setEditing] = useState(false);
 
   let [fullPost, setFullPost] = useState({
-    postId: posts.id,
+    postId: posts.postId,
     post_type: posts.post_type,
     content: posts.content,
     additional_resource: posts.additional_resource,
@@ -65,7 +67,7 @@ function PostItem({ posts }) {
     });
     setEditing(!isEditing);
   }
-  // console.log(fullPost);
+  console.log('posts', posts);
   return (
 
     <div className='container'>
@@ -77,7 +79,8 @@ function PostItem({ posts }) {
         justify="space-evenly"
         spacing={2}
       >
-        {isEditing ? (
+      
+        {isEditing ? ( 
           <>
             <form onSubmit={handleEditSubmit}>
               <Grid
@@ -158,7 +161,6 @@ function PostItem({ posts }) {
                   <TagItem posts={posts} />
 
                   <div className='btn-group'>
-
                       <Button className='delete-btn' onClick={handleDelete}
                       >Delete</Button>
                       <Button className='edit-btn' onClick={handleEdit}

@@ -73,7 +73,6 @@ function OffersForm() {
         }
     }
 
-
     return (
 
         <>

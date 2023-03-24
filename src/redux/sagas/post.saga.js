@@ -31,7 +31,7 @@ function* editPost(action) {
     try {
         console.log('action.payload for edit post', action.payload)
         yield axios.put(`/api/post/${action.payload.postId}`, action.payload)
-        yield put({type: 'GET_POST'});
+        yield put({type: 'GET_POST_BY_ID'});
     } catch (error) {
         console.error(`Error with editing post`, error)
     }

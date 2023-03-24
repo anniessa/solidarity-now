@@ -8,6 +8,7 @@ import {
     ListItem,
     ListItemIcon
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import Logo from '../graphics/logo.png';
 import HandHeart from '../graphics/hand_heart.png';
@@ -28,7 +29,7 @@ function DrawerNav() {
         <div>
             <div className='button'>
                 <Button onClick={() => setOpen(true)} color="secondary">
-                    Menu
+                   <MenuIcon />
                 </Button>
             </div>
 
