@@ -36,6 +36,10 @@ function OffersForm() {
         user_id: user.id,
     })
 
+    useEffect(() => {
+        dispatch({ type: 'GET_TAGS' })
+      }, []);
+
     const handleChange = (event, key) => {
         setFullPost({ ...fullPost, [key]: event.target.value })
     };

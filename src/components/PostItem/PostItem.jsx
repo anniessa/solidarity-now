@@ -146,7 +146,7 @@ function PostItem({ posts }) {
           <>
             <Grid item
               m={2}>
-              <Card sx={{ maxWidth: 300, height: 420 }}>
+              <Card sx={{ maxWidth: 300, maxHeight: 2000 }}>
                 <CardContent>
                   <p className="card-item-title">Request or Offer?</p>
                   <p>{posts.post_type}</p>

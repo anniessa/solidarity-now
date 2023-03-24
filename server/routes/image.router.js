@@ -33,9 +33,20 @@ const upload = multer({ storage, fileFilter });
 
 
 
-//downloads a file from database
-router.get('/', async (req, res) => {
-    
+// get photo by user id
+router.get('/:id', async (req, res) => {
+    const userId = req.params.userId;
+    const sqlValue = [userId]
+    const sqlText = `
+    SELECT "picture" from "user" 
+    WHERE "id" = $1;`;
+    pool.query(sqlText, sqlValue)
+    .then((result ) => {
+        res.send(result.rows)
+    })
+    .catch(err => {
+        console.log('error getting photos from user', err)
+    })
 })
 
 //initial post to multer
@@ -44,19 +55,14 @@ router.post('/files', rejectUnauthenticated, upload.single('file'), async (req, 
     try {
         const results = await s3Upload(req.files);
         console.log('AWS S3 upload success');
-        const sqlText = `INSERT INTO "images" ('name", "url")
-        VALUES($1 ,$2)`
-
-        pool.query(sqlText, [req.user.id, results.Location]) 
+        const sqlText = `INSERT INTO "user" ("picture")
+        VALUES($1) WHERE id = $2`
+        pool.query(sqlText, [results.Location, req.user.id]) 
     } catch (err) {
         res.sendStatus(500);
         console.log('AWS S3 upload fail', err);
     }
 });
 
-//post to database
-// router.post('/', rejecetUnauthenticated,(req, res) => {
-//     const
-// })
 
 module.exports = router;
