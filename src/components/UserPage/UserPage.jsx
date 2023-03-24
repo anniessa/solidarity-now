@@ -22,43 +22,43 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'GET_POST_BY_ID', payload: user.id })
     dispatch({type: 'GET_TAGS'})
+    // dispatch({type: 'SET_UPLOADS'})
+
   }, []);
 
-  // const submitFile = (event) => {
-  //   event.preventDefault();
-  //   dispatch({ type: 'FETCH_IMAGE' })
-  // }
+  const submitFile = (event) => {
+    event.preventDefault();
+    dispatch({ type: 'FETCH_IMAGE' })
+  }
 
   // event handler to manage file change and update reducer
-  // function fileSelected(event) {
-  //   const selectedFile = event.target.files[0];
-  //   dispatch({
-  //     type: 'UPLOAD_IMAGE',
-  //     payload: {
-  //       file: selectedFile
-  //     }
-  //   })
-  // }
+  function fileSelected(event) {
+    const selectedFile = event.target.files[0];
+    dispatch({
+      type: 'UPLOAD_IMAGE',
+      payload: {
+        file: selectedFile
+      }
+    })
+  }
 
 
   return (
     <div className="container">
       <h2 className="title">Welcome, {user.username}!</h2>
-      <form className='form'  encType="multipart/form-data"> 
-      {/* onSubmit={submitFile} */}
+      <form className='form' onSubmit={submitFile} encType="multipart/form-data"> 
         <Avatar
           className="avatar"
           alt='profile picture'
           src={image.url} 
           sx={{ width: 70, height: 70 }} />
-        <input type='file'></input>
-        {/* onChange={fileSelected}  */}
+        <input onChange={fileSelected} type='file'></input>
         <Button type='submit' color='secondary'>Upload Picture</Button>
       </form>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
         {posts.map((post, i) => {
-          return <PostItem key={i} posts={post} />
+          return <PostItem key={post.id} posts={post} />
         })}
       </Box>
     </div>

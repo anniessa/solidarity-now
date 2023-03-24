@@ -9,7 +9,7 @@ import {combineReducers} from 'redux';
 //     }
 // }
 
-const uploadedFile = (state = [], action) => {
+const uploadedFile = (state = {}, action) => {
     switch(action.type) {
         case 'SET_UPLOADS':
             return action.payload;

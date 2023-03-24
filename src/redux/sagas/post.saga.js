@@ -14,10 +14,10 @@ function* getPost(){
     }
 }
 
-// return a specific item by id
+// return a specific item by user id
 function* getPostById(action) {
     try{
-        console.log('action.payload', action.payload)
+        // console.log('action.payload in getpostby saga', action.payload)
         const response = yield axios.get(`/api/post/${action.payload}`)
         // console.log(action.payload)
         yield put({type: 'SET_POST', payload: response.data})
@@ -30,7 +30,7 @@ function* getPostById(action) {
 function* editPost(action) {
     try {
         console.log('action.payload for edit post', action.payload)
-        yield axios.put(`/api/post/${action.payload.postId}`, action.payload)
+        yield axios.put(`/api/post/${action.payload.id}`, action.payload)
         yield put({type: 'GET_POST_BY_ID'});
     } catch (error) {
         console.error(`Error with editing post`, error)

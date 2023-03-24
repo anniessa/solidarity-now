@@ -21,8 +21,6 @@ function PostItem({ posts }) {
   const tagsStore = useSelector((store) => store.tag);
   const user = useSelector((store) => store.user);
 
-
-  // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
     dispatch({ type: 'GET_POST_BY_ID', payload: user.id })
   }, []);
@@ -34,7 +32,7 @@ function PostItem({ posts }) {
   const [isEditing, setEditing] = useState(false);
 
   let [fullPost, setFullPost] = useState({
-    postId: posts.postId,
+    id: posts.id,
     post_type: posts.post_type,
     content: posts.content,
     additional_resource: posts.additional_resource,
@@ -43,6 +41,7 @@ function PostItem({ posts }) {
 
   const handleEdit = () => {
     setEditing(!isEditing);
+    // console.log('posts.id in key', posts.id)
   }
 
   const handleChange = (event, key) => {
@@ -67,7 +66,7 @@ function PostItem({ posts }) {
     });
     setEditing(!isEditing);
   }
-  console.log('posts', posts);
+  // console.log('posts', posts.id);
   return (
 
     <div className='container'>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {put, takeLatest} from 'redux-saga/effects';
 
 function* fetchImage() {
     try {
@@ -7,27 +8,27 @@ function* fetchImage() {
     } catch (error) {
         console.log('error refreshing image', error)
     }
-
 }
-
 
 function* uploadImage(action) {
     console.log('file', action.payload.file)
     try {
         //receive array of files
         const newFile = action.payload.file;
+        console.log('newFile', newFile)
         const data = new FormData(); //declare FormData (IMPORTANT STEP!!)
-        data.append('file', newFile.files) // this data contains this file and contains this header
+        data.append('file', newFile) // this data contains this file and contains this header
 
         yield console.log('Post new files to upload', data);
-        const response = yield axios.post('/api/images/files', data, {
+        const response = yield axios.put('/api/images/files', data, {
             headers: {
-                'content-type': 'multipart / form-data'
+                'content-type': 'multipart/form-data'
             }
         });
+        console.log('uploadImage response.data', response.data)
         yield put({ type: 'SET_UPLOADS', payload: response.data})
     } catch (error) {
-        console.log('error in uploadImage)', error)
+        console.error('error in uploadImage', error)
     }
 }
 

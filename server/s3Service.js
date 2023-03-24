@@ -4,14 +4,11 @@ const uuid = require('uuid').v4
 exports.s3Upload = async (files) => {
     const s3 = new S3()
 
-    const params = files.map(file => {
-        return {
+    const params = {
             Bucket: process.env.AWS_BUCKET,
-            Key: `uploads/${uuid()}-${file.originalname}`,
-            Body: file.buffer
-        };
-    })
+            Key: `uploads/${uuid()}-${files.originalname}`,
+            Body: files.buffer
+    }
 
-    return await Promise.all(
-        params.map((param) => s3.upload(param).promise()));
+    return await s3.upload(params).promise();
 }
