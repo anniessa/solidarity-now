@@ -9,7 +9,7 @@ import {combineReducers} from 'redux';
 //     }
 // }
 
-const uploadedFile = (state = {}, action) => {
+const profilePicture = (state = '', action) => {
     switch(action.type) {
         case 'SET_UPLOADS':
             return action.payload;
@@ -21,7 +21,7 @@ const uploadedFile = (state = {}, action) => {
 
 const imageReducer = combineReducers({
     // files,
-    uploadedFile
+    profilePicture
 })
 
 export default imageReducer;

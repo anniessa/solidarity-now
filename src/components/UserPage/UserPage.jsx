@@ -6,15 +6,13 @@ import {
   Button,
   Avatar
 } from "@mui/material";
-import SpiderWeb from '../graphics/spider_web.png';
-
-
 import './UserPage.css';
 
 function UserPage() {
   const user = useSelector((store) => store.user);
   const posts = useSelector((store) => store.post);
-  const image = useSelector((store => store.image));
+
+  const [image, setImage] = useState('');
 
   // console.log('image from store', image);
   const dispatch = useDispatch();
@@ -23,12 +21,11 @@ function UserPage() {
     dispatch({ type: 'GET_POST_BY_ID', payload: user.id })
     dispatch({type: 'GET_TAGS'})
     // dispatch({type: 'SET_UPLOADS'})
-
   }, []);
 
   const submitFile = (event) => {
     event.preventDefault();
-    dispatch({ type: 'FETCH_IMAGE' })
+    dispatch({type: 'FETCH_USER'})
   }
 
   // event handler to manage file change and update reducer
@@ -40,6 +37,7 @@ function UserPage() {
         file: selectedFile
       }
     })
+    
   }
 
 
@@ -50,7 +48,7 @@ function UserPage() {
         <Avatar
           className="avatar"
           alt='profile picture'
-          src={image.url} 
+          src={user.picture} 
           sx={{ width: 70, height: 70 }} />
         <input onChange={fileSelected} type='file'></input>
         <Button type='submit' color='secondary'>Upload Picture</Button>

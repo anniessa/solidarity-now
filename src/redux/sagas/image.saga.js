@@ -25,7 +25,6 @@ function* uploadImage(action) {
                 'content-type': 'multipart/form-data'
             }
         });
-        console.log('uploadImage response.data', response.data)
         yield put({ type: 'SET_UPLOADS', payload: response.data})
     } catch (error) {
         console.error('error in uploadImage', error)
