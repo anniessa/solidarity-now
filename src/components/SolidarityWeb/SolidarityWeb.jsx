@@ -39,14 +39,14 @@ function SolidarityWeb() {
                                 alignItems="center"
                                 justify="center"
                                 spacing={3}
-                                style={{ maxHeight: 500 }}
+                                // style={{ maxHeight: 1000 }}
                             >
 
                                 <Grid
-                                    item m={4}
+                                    item m={2}
                                     display="flex"
                                 >
-                                    <Card sx={{ width: 300 }}>
+                                    <Card sx={{ maxWidth: 300, maxHeight: 1000 }}>
                                         <CardContent>
                                             <p className="card-item-title">Posted by: </p>
                                             <p>{post.username}</p>

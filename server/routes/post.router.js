@@ -6,7 +6,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 //getting ALL the posts with username associated
 router.get('/', rejectUnauthenticated, (req, res) => {
 
-  const sqlText =  `
+  const sqlText = `
   SELECT "posts".id, "user".username, "posts".post_type, "posts".content, "posts".additional_resource, JSON_AGG("tags") AS "tags" FROM "posts"
 JOIN "tags_posts" ON "posts".id = "tags_posts".posts_id
 JOIN "tags" ON "tags".id = "tags_posts".tags_id
@@ -33,8 +33,8 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     WHERE user_id = $1
     GROUP BY "posts".id, "posts".post_type,  "posts".content, "posts".additional_resource;  
  `
-//  console.log(req.user.id)
-//  console.log('hello world')
+  //  console.log(req.user.id)
+  //  console.log('hello world')
   pool.query(sqlText, [req.user.id])
     .then(result => {
       // console.log(result.rows)
@@ -55,62 +55,62 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     INSERT INTO "posts" ("post_type", "content", "additional_resource", "user_id")
     VALUES ($1, $2, $3, $4)
     RETURNING "id";`
-     //RETURNING 'id' will give us back the id of the created post
+    //RETURNING 'id' will give us back the id of the created post
     result = await pool.query(insertPostQuery, [req.body.post_type, req.body.content, req.body.additional_resource, req.user.id])
     createdPostId = result.rows[0].id
 
     // mapping over the tag_ids array to do the query for EACH individual tag
     const postTags = tags.map(tag => {
-    const insertPostTagQuery = `
+      const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
     VALUES ($1, $2);
     `
-    pool.query(insertPostTagQuery, [createdPostId, tag.id])
+      pool.query(insertPostTagQuery, [createdPostId, tag.id])
     })
     // returning an empty object, until the map is completed and once its completed, it sends status
     Promise.all(postTags)
     res.sendStatus(200);
   } catch (err) {
     console.log(`Error posting post with tag`, err)
-    res.sendStatus(500);  
+    res.sendStatus(500);
   }
-    });
+});
 
 // Edit request by id -- update a post if authorized logged in user edits
 router.put('/:id', rejectUnauthenticated, async (req, res) => {
-  console.log('req.body.tags', req.body.tags);
-  console.log("req.params.id", req.params.id)
+  // console.log('req.body', req.body);
+  // console.log("req.params.id", req.params.id)
   let tags = req.body.tags
 
   try {
-  const sqlText = `
+    const sqlText = `
   UPDATE posts
   SET "post_type" = $3, "content" = $4, "additional_resource" = $5
   WHERE id = $1 and user_id = $2;
   `
-  result = await pool.query(sqlText, [
-    req.params.id,
-    req.user.id,
-    req.body.post_type,
-    req.body.content,
-    req.body.additional_resource
-  ])
+    result = await pool.query(sqlText, [
+      req.params.id,
+      req.user.id,
+      req.body.post_type,
+      req.body.content,
+      req.body.additional_resource
+    ])
 
-  // DELETE all tag-post relations for this post (we're going to rewrite new tags below)
-  const secondSqlText = 
-  `DELETE FROM "tags_posts" 
+    // DELETE all tag-post relations for this post (we're going to rewrite new tags below)
+    const secondSqlText =
+      `DELETE FROM "tags_posts" 
   WHERE posts_id= $1;`
-  result = await pool.query(secondSqlText, [req.params.id] )
-  // INSERT new tags
+    result = await pool.query(secondSqlText, [req.params.id])
+    // INSERT new tags
     const updatedTags = tags.map(async tag => {
-    const insertPostTagQuery = `
+      const insertPostTagQuery = `
     INSERT INTO "tags_posts" ("posts_id", "tags_id")
     VALUES ($1, $2);
     `
-    await pool.query(insertPostTagQuery, [req.params.id, tag.id])
+      await pool.query(insertPostTagQuery, [req.params.id, tag.id])
     })
     // returning an empty object, until the map is completed and once its completed, it sends status
-   await Promise.all(updatedTags)
+    await Promise.all(updatedTags)
     res.sendStatus(200)
   } catch (error) {
     console.log('server-side error for put', error)
@@ -119,12 +119,12 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
 
 });
 
-  router.delete('/:id', rejectUnauthenticated, (req, res) => {
-    console.log(req.params.id)
-    const sqlText= `
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  console.log(req.params.id)
+  const sqlText = `
     DELETE FROM "posts" WHERE id = $1 and "user_id" = $2;
     `;
-    pool.query(sqlText, [req.params.id, req.user.id])
+  pool.query(sqlText, [req.params.id, req.user.id])
     .then((dbRes) => {
       res.sendStatus(200);
     })
@@ -132,7 +132,7 @@ router.put('/:id', rejectUnauthenticated, async (req, res) => {
       console.error(`Error deleting post`, error);
       res.sendStatus(500);
     });
-  });
+});
 
 
 

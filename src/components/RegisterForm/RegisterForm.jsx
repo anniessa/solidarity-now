@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
@@ -17,7 +19,9 @@ function RegisterForm() {
         username: username,
         password: password,
       },
+      
     });
+    history.push('/landing')
   }; // end registerUser
 
   return (

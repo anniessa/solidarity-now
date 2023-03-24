@@ -19,10 +19,10 @@ function PostItem({ posts }) {
   const dispatch = useDispatch();
 
   const tagsStore = useSelector((store) => store.tag);
+  const user = useSelector((store) => store.user);
 
-  // console.log('tagsPosts', tagsPosts)
   useEffect(() => {
-    dispatch({ type: 'GET_POST_BY_ID', payload: posts.id })
+    dispatch({ type: 'GET_POST_BY_ID', payload: user.id })
   }, []);
 
   const handleDelete = () => {
@@ -32,7 +32,7 @@ function PostItem({ posts }) {
   const [isEditing, setEditing] = useState(false);
 
   let [fullPost, setFullPost] = useState({
-    postId: posts.id,
+    id: posts.id,
     post_type: posts.post_type,
     content: posts.content,
     additional_resource: posts.additional_resource,
@@ -41,6 +41,7 @@ function PostItem({ posts }) {
 
   const handleEdit = () => {
     setEditing(!isEditing);
+    // console.log('posts.id in key', posts.id)
   }
 
   const handleChange = (event, key) => {
@@ -65,7 +66,7 @@ function PostItem({ posts }) {
     });
     setEditing(!isEditing);
   }
-  // console.log(fullPost);
+  // console.log('posts', posts.id);
   return (
 
     <div className='container'>
@@ -77,7 +78,8 @@ function PostItem({ posts }) {
         justify="space-evenly"
         spacing={2}
       >
-        {isEditing ? (
+      
+        {isEditing ? ( 
           <>
             <form onSubmit={handleEditSubmit}>
               <Grid
@@ -146,7 +148,7 @@ function PostItem({ posts }) {
           <>
             <Grid item
               m={2}>
-              <Card sx={{ maxWidth: 300, height: 420 }}>
+              <Card sx={{ maxWidth: 300, maxHeight: 2000 }}>
                 <CardContent>
                   <p className="card-item-title">Request or Offer?</p>
                   <p>{posts.post_type}</p>
@@ -158,7 +160,6 @@ function PostItem({ posts }) {
                   <TagItem posts={posts} />
 
                   <div className='btn-group'>
-
                       <Button className='delete-btn' onClick={handleDelete}
                       >Delete</Button>
                       <Button className='edit-btn' onClick={handleEdit}

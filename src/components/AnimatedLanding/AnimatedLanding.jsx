@@ -2,8 +2,7 @@ import './AnimatedLanding.css';
 import { useSelector } from 'react-redux';
 
 function AnimatedLanding() {
-    const user = useSelector(store =>  store.user);
-    console.log(user.id)
+    const user = useSelector(store =>  store.user)
     return (
         <>
         <div className='circle'>
