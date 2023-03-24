@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import TagItem from "../TagItem/TagItem";
 
 import {
+    Avatar,
     Card,
     CardContent,
     Grid
@@ -48,7 +49,8 @@ function SolidarityWeb() {
                                 >
                                     <Card sx={{ maxWidth: 300, maxHeight: 1000 }}>
                                         <CardContent>
-                                            <p className="card-item-title">Posted by: </p>
+                                            <Avatar style={{width: 45, height: 45}} src={post.picture} />
+                                            <p className="card-item-title"> Posted by: </p>
                                             <p>{post.username}</p>
                                             <p className="card-item-title">Request or Offer?</p>
                                             <p>{post.post_type}</p>
