@@ -28,9 +28,12 @@ function AboutPage() {
 
         <p className='title'> Thank you! </p>
         <li> 💎 Amethyst cohort 💎</li>
-        <li>Dane, Key, Edan, Vada, Mary, Kris, Bethany, Christy, Bellamy and all Prime staff and community</li>
+        <li>Dane, Key, Edan, Kris, Vada, Mary, Bethany, Christy, Bellamy and all Prime staff and community</li>
         <li>Friends and Family</li>
         <li>Viewers Like You!</li>
+        <li>This app was inspired by the Twin Cities Mutual Aid website:
+        https://twin-cities-mutual-aid.org/ </li>
+
 
         <p className='title'> GitHub </p>
         <li>gitHub.com/anniessa</li>
