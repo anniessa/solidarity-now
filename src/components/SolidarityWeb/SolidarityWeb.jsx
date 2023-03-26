@@ -47,7 +47,7 @@ function SolidarityWeb() {
                                     item m={2}
                                     display="flex"
                                 >
-                                    <Card sx={{ maxWidth: 300, maxHeight: 1000 }}>
+                                    <Card sx={{ maxWidth: 320, maxHeight: 1000 }}>
                                         <CardContent>
                                             <Avatar style={{width: 45, height: 45}} src={post.picture} />
                                             <p className="card-item-title"> Posted by: </p>
