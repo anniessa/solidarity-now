@@ -28,9 +28,9 @@ function DrawerNav() {
     return (
         <div>
             <div className='button'>
-                <Button onClick={() => setOpen(true)} color="secondary">
-                   <MenuIcon />
-                </Button>
+                
+                   <MenuIcon onClick={() => setOpen(true)} />
+                
             </div>
 
             <Drawer PaperProps={{

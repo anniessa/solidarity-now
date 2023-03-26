@@ -12,8 +12,6 @@ function UserPage() {
   const user = useSelector((store) => store.user);
   const posts = useSelector((store) => store.post);
 
-  const [image, setImage] = useState('');
-
   // console.log('image from store', image);
   const dispatch = useDispatch();
 
