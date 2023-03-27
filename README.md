@@ -1,121 +1,90 @@
+# Solidarity Now!
 
-# Prime Solo Project Starting Repo
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+_Duration: 2 weeks_
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+Solidarity Now! is a mobile application that aggregates and amplifies requests for mutual aid, calls to action, and other ways we can show up for one another with care. 
 
-## Use the Template for This Repository (Don't Clone)
+Mutual aid is when everyday people get together to meet each other’s needs, with the shared understanding that the systems we live in often do not meet our needs. It is a practice based on the principles of direct action, cooperation, mutual understanding, and solidarity. Mutual aid is not charity, it is the building of new social relations where people give what they can and get what they need, outside of unjust systems of power.
 
-- Don't Fork or Clone. Instead, click the `Use this Template` button, and make a copy to your personal account. Make the project `PUBLIC`!
+![Screen Recording 2023-03-27 at 2 06 44 PM](https://user-images.githubusercontent.com/111613142/228064996-ff77bfaf-339b-4095-aecf-3621c2f9a200.gif)
 
 
-## Prerequisites
+### Prerequisites
 
-Before you get started, make sure you have the following software installed on your computer:
+If not viewing the deployed version of [Solidarity Now!](https://solidaritynow.herokuapp.com/) on Heroku, you can download and install the app on your local computer. Designed as a mobile application, Solidarity Now! is best viewed with a screen width of 390px by 884px or a small browser window. 
+
+Before you get started, make sure you have the following software installed:
 
 - [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Nodemon](https://nodemon.io/)
+- [Postico 2](https://eggerapps.at/postico2/)
 
-## Create database and table
+## Technology
 
-Create a new database called `prime_app` and create a `user` table:
+- React.js 
+- Redux
+- Redux-Saga
+- React-Router
+- Axios
+- DotEnv 
+- Express
+- Body-parser
+- pg
+- Passport.js
+- Material UI
+- Google Translate API
+- AWS S3
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
+## Installation
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
-
-## Development Setup Instructions
-
-- Run `npm install`
-- Create a `.env` file at the root of the project and paste this line into the file:
+1. Make sure PostgreSQL and Postico are installed. Using Postico, create a database called `solidarity-now`.
+2. Run the queries from `database.sql` to set up the database tables in Postico.
+3. In your terminal, navigate to the solidarity-now directory and run `npm install` to install dependencies.
+4. Create a `.env` file at the root of the project and paste this line into the file:
   ```
   SERVER_SESSION_SECRET=superDuperSecret
   ```
   While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-- Start postgres if not running already by using `brew services start postgresql`
-- Run `npm run server`
-- Run `npm run client`
-- Navigate to `localhost:3000`
+  
+  5. Run `npm run server` to start the server and `npm run client`, which will open a new browser tab containing the app. 
 
-## Debugging
+## Usage
+**Users can select a language at any time from the dropdown menu to translate any page into their preferred language.**
+1. When a user logs in, they are taken to the landing page. They can navigate using the hamburger menu in the top left corner.
+2. **Offers/Requests Form**: The user can submit an request or offer and add a resource. Tagging the post will help others recognize what area of interest this belongs to.
+![Screen Recording 2023-03-27 at 4 13 02 PM](https://user-images.githubusercontent.com/111613142/228068155-9eed8d23-36da-4415-a9f1-dfa4c58d63c4.gif)
+3. **Solidarity Web**: Users can see all posts made by all users.
+4. **Profile**: Users are able to edit and delete the posts they've made and update their profile pictures.
+![Screen Recording 2023-03-27 at 4 18 13 PM](https://user-images.githubusercontent.com/111613142/228069242-4e3fb9c8-71b7-4549-b913-4decd8dcbbd8.gif)
+5. **Resources**: Users can refer to the Resources page to find resources relevant to them. 
+<img width="390" alt="Screenshot 2023-03-27 at 4 22 17 PM" src="https://user-images.githubusercontent.com/111613142/228069813-c54adcfc-f568-4cfd-a3dd-c6207c2a9b2a.png">
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
+Resources translated into Spanish.
 
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
-
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
-
-## Testing Routes with Postman
-
-To use Postman with this repo, you will need to set up requests in Postman to register a user and login a user at a minimum.
-
-Keep in mind that once you using the login route, Postman will manage your session cookie for you just like a browser, ensuring it is sent with each subsequent request. If you delete the `localhost` cookie in Postman, it will effectively log you out.
-
-1. Start the server - `npm run server`
-2. Import the sample routes JSON file [v2](./PostmanPrimeSoloRoutesv2.json) by clicking `Import` in Postman. Select the file.
-3. Click `Collections` and `Send` the following three calls in order:
-   1. `POST /api/user/register` registers a new user, see body to change username/password
-   2. `POST /api/user/login` will login a user, see body to change username/password
-   3. `GET /api/user` will get user information, by default it's not very much
-
-After running the login route above, you can try any other route you've created that requires a logged in user!
-
-## Production Build
-
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
-
-- Start postgres if not running already by using `brew services start postgresql`
-- Run `npm start`
-- Navigate to `localhost:5000`
-
-## Lay of the Land
-
-There are a few videos linked below that show a walkthrough the client and sever setup to help acclimatize to the boilerplate. Please take some time to watch the videos in order to get a better understanding of what the boilerplate is like.
-
-- [Initial Set](https://vimeo.com/453297271)
-- [Server Walkthrough](https://vimeo.com/453297212)
-- [Client Walkthrough](https://vimeo.com/453297124)
-
-Directory Structure:
-
-- `src/` contains the React application
-- `public/` contains static assets for the client-side
-- `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-- `server/` contains the Express App
-
-This code is also heavily commented. We recommend reading through the comments, getting a lay of the land, and becoming comfortable with how the code works before you start making too many changes. If you're wondering where to start, consider reading through component file comments in the following order:
-
-- src/components
-  - App/App
-  - Footer/Footer
-  - Nav/Nav
-  - AboutPage/AboutPage
-  - InfoPage/InfoPage
-  - UserPage/UserPage
-  - LoginPage/LoginPage
-  - RegisterPage/RegisterPage
-  - LogOutButton/LogOutButton
-  - ProtectedRoute/ProtectedRoute
+<img width="392" alt="Screenshot 2023-03-27 at 4 22 36 PM" src="https://user-images.githubusercontent.com/111613142/228069818-4c2c9674-8200-4e97-a0ad-aaac109ee263.png">
 
 ## Deployment
 
 1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
+2. Link the Heroku project to the project GitHub Repo
+3. Create an Heroku Postgres database
+4. Connect to the Heroku Postgres database from Postico
+5. Create the necessary tables
+6. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
+7. In the deploy section, select manual deploy
 
-## Update Documentation
 
-Customize this ReadMe and the code comments in this project to read less like a starter repo and more like a project. Here is an example: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+Thank you to Prime Digital Academy who equipped me with the skills to make this application a reality.
+
+## Future Updates
+I would like to add some more social functionality, like the ability for users to message one another and follow up on a request or an offer.
+
+## Bug Report
+No known bugs at this time! However, the Heroku server can be quite slow, so if using on Heroku, users may experience a lag between their actions and the site response. So, please be patient! Please reach out to me if you do spot a bug [anniessa.antar@gmail.com].

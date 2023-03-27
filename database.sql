@@ -27,3 +27,7 @@ CREATE TABLE "tags_posts" (
 	"tags_id" INT REFERENCES "tags",
 	"posts_id" INT REFERENCES "posts" ON DELETE CASCADE
 );
+
+INSERT INTO "tags" ("tag_name")
+VALUES ('financial solidarity'), ('direct action'), ('education'), ('clothing'), ('food'), ('legal'), ('housing'), ('childcare'), 
+('creativity'), ('healthcare'), ('free stuff'), ('other');
