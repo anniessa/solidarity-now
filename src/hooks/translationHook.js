@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function translationHook(src, cb) {
+function TranslationHook(src, cb) {
   // Keep track of script status ("idle", "loading", "ready", "error")
   const [status, setStatus] = useState(src ? "loading" : "idle");
   useEffect(
@@ -60,4 +60,4 @@ function translationHook(src, cb) {
   return status;
 }
 
-export default translationHook;
+export default TranslationHook;

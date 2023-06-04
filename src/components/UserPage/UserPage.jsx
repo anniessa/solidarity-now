@@ -42,12 +42,9 @@ function UserPage() {
   return (
     <div className="container">
       <h2 className="title">Welcome, {user.username}!</h2>
+      
       <form className='form' onSubmit={submitFile} encType="multipart/form-data"> 
-        <Avatar
-          className="avatar"
-          alt='profile picture'
-          src={user.picture} 
-          sx={{ width: 70, height: 70 }} />
+      <img src={user.picture} width="750" height="500" controls > </img>
         <input onChange={fileSelected} type='file'></input>
         <Button type='submit' color='secondary'>Upload Picture</Button>
       </form>

@@ -23,7 +23,7 @@ const multer = require('multer');
 require('dotenv').config();
 const storage = multer.memoryStorage()
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype.split('/')[0] === 'image') {
+    if (file.mimetype.split('/')[0] === 'video') {
         cb(null, true)
     } else {
         cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE"), false)
