@@ -48,8 +48,8 @@ function OffersForm() {
         // I want multiple checkboxes to be pushed into the fullPost.tags array
         const newTag = { ...fullPost }
         // console.log(newCopy)
-        if (newTag.tags.some(tag => tag.id === tagObject.id)) {
-            newTag.tags = newTag.tags.filter((id) => id !== tagObject.id)
+        if (newTag.tags.some(tag => tagObject.id === tag.id)) {
+            newTag.tags = newTag.tags.filter((tag) => tag.id !== tagObject.id)
         } else {
             newTag.tags.push(tagObject);
         }
@@ -116,6 +116,9 @@ function OffersForm() {
                                                 label="What are you offering/requesting?"
                                                 value={fullPost.content}
                                                 onChange={(e) => { handleChange(e, 'content') }}
+                                                sx={{
+                                                    mb: 2
+                                                }}
                                             />
                                             <TextField
                                                 fullWidth
@@ -135,11 +138,15 @@ function OffersForm() {
                                                         <FormControlLabel
                                                             control={
                                                                 <Checkbox
-                                                                    checked={fullPost.tags.some(e => e.id === individualTag.id)}
+                                                                    checked={fullPost.tags?.some((tag) => tag?.id === individualTag?.id)}
                                                                     onChange={(e) => handleTag(individualTag)}
                                                                     inputProps={{ 'aria-label': 'controlled' }} />}
                                                             value={individualTag.id}
-                                                            label={individualTag.tag_name} />
+                                                            label={individualTag.tag_name} 
+                                                            sx={{
+                                                                align: "left"
+                                                            }}
+                                                            />
                                                     </li>
                                                 );
 
