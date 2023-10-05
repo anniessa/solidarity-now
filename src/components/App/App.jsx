@@ -29,7 +29,6 @@ import './App.css';
 
 
 function App() {
-
   const googleTranslateElementInit = () => {
     new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
   }
@@ -55,7 +54,8 @@ return (
     <div>
       <DrawerNav />
       {state === "loading" && <p>Loading...</p>}
-      {state === "ready" && <Translate />}
+      {state === "ready" && <Translate />} 
+
 
       <Switch>
         {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
