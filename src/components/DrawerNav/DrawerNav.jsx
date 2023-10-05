@@ -100,21 +100,25 @@ function DrawerNav() {
               Profile
             </Button>
 
-          <ListItem className="drawerNav" onClick={() => setOpen(false)}>
-            <Link className="drawerNav" to="/resources">
+            <Button 
+            onClick={() => setOpen(false)}
+            component={Link}
+              to="/resources"
+              variant="none"
+              sx={{display: "flex", alignItems: "flex-end", mt: 1}}
+              >
               Resources
-            </Link>
-          </ListItem>
+            </Button>
 
-          <ListItem className="drawerNav">
-            <Link
-              className="drawerNav"
+            <Button 
+            onClick={() => setOpen(false)}
+            component={Link}
               to="/about"
-              onClick={() => setOpen(false)}
-            >
+              variant="none"
+              sx={{display: "flex", alignItems: "flex-end", mt: 1}}
+              >
               About
-            </Link>
-          </ListItem>
+            </Button>
 
           <ListItem className="drawerNav" onClick={() => setOpen(false)}>
             {!user.id && <Link to="login">Login/Register</Link>}
