@@ -69,7 +69,7 @@ function DrawerNav() {
                 src={HandHeart}
                 style={{ marginRight: 7, height: 40 }}
               />
-               Offers/Request Form
+               Offer/Request Form
             </Button>
           </div>
 
