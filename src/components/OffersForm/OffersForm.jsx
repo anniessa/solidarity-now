@@ -92,7 +92,7 @@ function OffersForm() {
                     sx={{ maxWidth: '350px' }}
                 >
                     <Grid item m={2}>
-                        <Card>
+                        <Card elevation={8}>
                             <CardContent >
                                 <FormControl error={error}>
                                     <div>

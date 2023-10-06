@@ -163,7 +163,7 @@ function PostItem({ posts }) {
         ) : (
           <div className="container">
             <Grid item m={2}>
-              <Card sx={{ width: 300, height: "100%" }}>
+              <Card sx={{ width: 300, height: "100%" }} elevation={8}>
                 <CardContent>
                   <p className="card-item-title">Request or Offer?</p>
                   <p>{posts.post_type}</p>
